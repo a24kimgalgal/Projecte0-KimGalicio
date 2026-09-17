@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Joc de preguntes</title>
+
+</head>
+<body>
+    <form id="login-form">
+        <label for="username">Nom d'usuari:</label><br>
+        <input type="text" id="username" name="username" required><br>
+        <label for="password">Contrasenya:</label><br>
+        <input type="password" id="password" name="password" required><br>
+        <br>
+        <button type="submit">Iniciar Sessió</button>
+    </form>
+
+    <script>
+        document.getElementById('login-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            window.location.href = '/index.html';
+        });
+    </script>
+
+
+    <div id="partida"></div>
+    <br>
+    <div id="marcador">Preguntes respostes: 0</div>
+    <button id="boto-enviar" class="hidden">Enviar Resultats</button>
+
+    <script src="script.js"></script>
+</body>
+
+<style>
+    .hidden {
+        display: none;
+    }
+</style>
+
+</html>

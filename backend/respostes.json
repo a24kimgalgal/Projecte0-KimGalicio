@@ -1,0 +1,84 @@
+{
+  "respostes_correctes": [
+    {
+      "id": 1,
+      "resposta": "BMW"
+    },
+    {
+      "id": 2,
+      "resposta": "Apple"
+    },
+    {
+      "id": 3,
+      "resposta": "Nike"
+    },
+    {
+      "id": 4,
+      "resposta": "McDonald's"
+    },
+    {
+      "id": 5,
+      "resposta": "Coca-Cola"
+    },
+    {
+      "id": 6,
+      "resposta": "IKEA"
+    },
+    {
+      "id": 7,
+      "resposta": "Netflix"
+    },
+    {
+      "id": 8,
+      "resposta": "Mastercard"
+    },
+    {
+      "id": 9,
+      "resposta": "LEGO"
+    },
+    {
+      "id": 10,
+      "resposta": "Samsung"
+    },
+    {
+      "id": 11,
+      "resposta": "Starbucks"
+    },
+    {
+      "id": 12,
+      "resposta": "Google"
+    },
+    {
+      "id": 13,
+      "resposta": "Louis Vuitton"
+    },
+    {
+      "id": 14,
+      "resposta": "Amazon"
+    },
+    {
+      "id": 15,
+      "resposta": "PlayStation"
+    },
+    {
+      "id": 16,
+      "resposta": "Tesla"
+    },
+    {
+      "id": 17,
+      "resposta": "Red Bull"
+    },
+    {
+      "id": 18,
+      "resposta": "Instagram"
+    },
+    {
+      "id": 19,
+      "resposta": "L'Oréal"
+    },
+    {
+      "id": 20,
+      "resposta": "Rolex"
+    }
+  ]
+}
