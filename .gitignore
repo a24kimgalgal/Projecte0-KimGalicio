@@ -1,0 +1,4 @@
+mysql_data/
+.env/
+node_modules/
+```
