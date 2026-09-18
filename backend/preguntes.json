@@ -130,7 +130,7 @@
         "Bing",
         "DuckDuckGo"
       ],
-      "imatge": "./img/buscador.jpg"
+      "imatge": "./img/buscador.png"
     },
     {
       "id": 13,
@@ -141,7 +141,7 @@
         "Chanel",
         "Prada"
       ],
-      "imatge": "./img/moda.jpg"
+      "imatge": "./img/bolso.jpeg"
     },
     {
       "id": 14,
@@ -150,7 +150,7 @@
       "respostes_incorrectes": [
         "eBay",
         "AliExpress",
-        "Rakuten"
+        "Alibaba"
       ],
       "imatge": "./img/ecommerce.jpg"
     },
@@ -163,7 +163,7 @@
         "Nintendo",
         "SEGA"
       ],
-      "imatge": "./img/consola.jpg"
+      "imatge": "./img/consolas.jpeg"
     },
     {
       "id": 16,
@@ -196,7 +196,7 @@
         "Pinterest",
         "Snapchat"
       ],
-      "imatge": "./img/red_social.jpg"
+      "imatge": "./img/red_social.jpeg"
     },
     {
       "id": 19,
@@ -218,7 +218,7 @@
         "TAG Heuer",
         "Patek Philippe"
       ],
-      "imatge": "./img/relojes.jpg"
+      "imatge": "./img/reloj.avif"
     }
   ]
 }
