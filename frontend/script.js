@@ -75,6 +75,11 @@ function iniciarPartida() {
     const p = estatDeLaPartida.llistaPreguntes[estatDeLaPartida.contadorPreguntes];
     let respostes = [p.resposta_correcta, ...p.respostes_incorrectes].sort(() => Math.random() - 0.5);
 
+    //TODO: Millorar el tema de ensenyar las imatges
+    //TODO: Afegir botó per enviar les respostes al final de la partida i mostrar el resultat
+    //TODO: Afegir un sistema de puntuació i mostrar el resultat final amb les respostes correctes i incorrectes
+    //TODO: Afegir un sistema de temps per cada pregunta i mostrar el temps en el q ha completat totes les preguntes
+
     elementPartida.innerHTML = `
         <h3>${p.pregunta}</h3>
         <img src="${p.imatge}" style="width: 200px; border-radius: 8px;">

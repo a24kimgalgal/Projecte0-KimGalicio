@@ -11,6 +11,10 @@ const respostes = require('./respostes.json');
 
 const sessions = new Map();
 
+//TODO: Implementar un sistema de sessions més segur i persistent.
+//TODO: Implementar una funció per barrejar les preguntes i respostes abans de servir-les al client.
+//TODO: Fer q només siguin 10 preguntes per partida.
+
 app.use(cors());  
 app.use(express.static(path.join(__dirname, '../frontend')));
 app.use(express.json()); 
