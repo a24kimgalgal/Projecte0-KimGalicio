@@ -135,3 +135,28 @@ element.innerHTML = contingutHTML;
 
 
 
+
+/*
+function shuffleArray(arr) {
+    for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+    }
+}
+
+
+function arrancarQuiz() {
+    seccioLogin.classList.add('hidden');
+    seccioQuiz.classList.remove('hidden');
+
+    fetch('/preguntes') 
+        .then(res => res.json()) 
+        .then(data => {
+            estatDeLaPartida.llistaPreguntes = data.preguntes.slice();
+            shuffleArray(estatDeLaPartida.llistaPreguntes);
+            estatDeLaPartida.totalPreguntes = estatDeLaPartida.llistaPreguntes.length;
+            iniciarPartida();
+            renderitzarMarcador();
+        });
+}
+*/
