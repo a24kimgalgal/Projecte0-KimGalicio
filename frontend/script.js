@@ -46,19 +46,25 @@ function arrancarQuiz() {
     fetch('/preguntes') 
         .then(res => res.json()) 
         .then(data => {
-            estatDeLaPartida.llistaPreguntes = data.preguntes;
-            estatDeLaPartida.totalPreguntes = data.preguntes.length;
+            const preguntesRebudes = data.preguntes || data; 
+            
+            estatDeLaPartida.llistaPreguntes = preguntesRebudes;
+            estatDeLaPartida.totalPreguntes = preguntesRebudes.length;
             iniciarPartida();
             renderitzarMarcador();
-        });
+        })
+        .catch(error => console.error("Error carregant les preguntes:", error));
 }
 
 elementPartida.addEventListener("click", (event) => {
     if (event.target.classList.contains("resposta")) {
+        const preguntaActual = estatDeLaPartida.llistaPreguntes[estatDeLaPartida.contadorPreguntes];
+        
         estatDeLaPartida.respostesUsuari.push({
-            preguntaId: estatDeLaPartida.contadorPreguntes,
+            preguntaId: preguntaActual.id || estatDeLaPartida.contadorPreguntes, // Idealment preguntaActual.id
             resposta: event.target.innerText
         });
+        
         estatDeLaPartida.contadorPreguntes++;
         renderitzarMarcador();
         iniciarPartida();
@@ -75,19 +81,14 @@ function iniciarPartida() {
     const p = estatDeLaPartida.llistaPreguntes[estatDeLaPartida.contadorPreguntes];
     let respostes = [p.resposta_correcta, ...p.respostes_incorrectes].sort(() => Math.random() - 0.5);
 
-    //TODO: Millorar el tema de ensenyar las imatges
-    //TODO: Afegir botó per enviar les respostes al final de la partida i mostrar el resultat
-    //TODO: Afegir un sistema de puntuació i mostrar el resultat final amb les respostes correctes i incorrectes
-    //TODO: Afegir un sistema de temps per cada pregunta i mostrar el temps en el q ha completat totes les preguntes
-
+    const imatgeHtml = p.imatge ? `<img src="${p.imatge}" style="width: 200px; border-radius: 8px; margin-bottom: 15px;">` : "";
+    const botonsHtml = respostes.map(resposta => `<button class="resposta">${resposta}</button>`).join('');
+    
     elementPartida.innerHTML = `
         <h3>${p.pregunta}</h3>
-        <img src="${p.imatge}" style="width: 200px; border-radius: 8px;">
+        ${imatgeHtml}
         <div id="botons">
-            <button class="resposta">${respostes[0]}</button>
-            <button class="resposta">${respostes[1]}</button>
-            <button class="resposta">${respostes[2]}</button>
-            <button class="resposta">${respostes[3]}</button>
+            ${botonsHtml}
         </div>
     `;
 }
@@ -95,3 +96,8 @@ function iniciarPartida() {
 function renderitzarMarcador() {
     document.getElementById('marcador').innerText = `Preguntes respostes: ${estatDeLaPartida.respostesUsuari.length} de ${estatDeLaPartida.totalPreguntes}`;
 }
+//TODO: Millorar el tema de ensenyar las imatges
+//TODO: Afegir botó per enviar les respostes al final de la partida i mostrar el resultat
+//TODO: Afegir un sistema de puntuació i mostrar el resultat final amb les respostes correctes i incorrectes
+//TODO: Afegir un sistema de temps per cada pregunta i mostrar el temps en el q ha completat totes les preguntes
+//TODO: Afegir un botó d'eliminar nom
