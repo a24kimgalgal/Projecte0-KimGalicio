@@ -12,8 +12,8 @@ const respostes = require('./respostes.json');
 const sessions = new Map();
 
 //TODO: Implementar un sistema de sessions més segur i persistent.
-//TODO: Implementar una funció per barrejar les preguntes abans de servir-les al client (utilitzant Math.random()).
-//TODO: Fer q només siguin 10 preguntes per partida.
+//TODO: Implementar una funció per barrejar les preguntes abans de servir-les al client (utilitzant Math.random()). (FET)
+//TODO: Fer q només siguin 10 preguntes per partida. (FET)
 
 function barrejarPreguntes(array) {
   const arrayBarrejat = [...array]; 
@@ -51,11 +51,23 @@ app.get('/session', (req, res) => {
 });
 
 app.get('/preguntes', (req, res) => {
+  const sessionId = req.headers['session-id']; 
   const llistaPreguntes = preguntes.preguntes;
-  const preguntesBarrejades = barrejarPreguntes(llistaPreguntes);
-  const preguntesPartida = preguntesBarrejades.slice(0, 10);
-  res.json({ preguntes: preguntesPartida });
+  const preguntesPartida = barrejarPreguntes(llistaPreguntes).slice(0, 10);
+  if (sessionId && sessions.has(sessionId)) {
+      sessions.get(sessionId).questions = preguntesPartida;
+      console.log("Sesión guardada:", sessions.get(sessionId));
+  }
+  const preguntesClient = preguntesPartida.map(q => ({
+      id: q.id,
+      pregunta: q.pregunta,
+      imatge: q.imatge,
+      respostes: barrejarPreguntes([q.resposta_correcta, ...q.respostes_incorrectes])
+  }));
+
+  res.json({ preguntes: preguntesClient });
 });
+
 app.get('/respostes', (req, res) => {
   res.json(respostes);
 });

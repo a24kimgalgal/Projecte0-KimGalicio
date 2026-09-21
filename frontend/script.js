@@ -43,9 +43,11 @@ function arrancarQuiz() {
     seccioLogin.classList.add('hidden');
     seccioQuiz.classList.remove('hidden');
 
-    fetch('/preguntes') 
+    const sessionId = localStorage.getItem('sessionId'); 
+    fetch('/preguntes', { headers: { 'session-id': sessionId } }) 
         .then(res => res.json()) 
         .then(data => {
+            console.log("Preguntas recibidas del servidor:", data);
             const preguntesRebudes = data.preguntes || data; 
             
             estatDeLaPartida.llistaPreguntes = preguntesRebudes;
@@ -79,10 +81,8 @@ function iniciarPartida() {
     }
 
     const p = estatDeLaPartida.llistaPreguntes[estatDeLaPartida.contadorPreguntes];
-    let respostes = [p.resposta_correcta, ...p.respostes_incorrectes].sort(() => Math.random() - 0.5);
-
     const imatgeHtml = p.imatge ? `<img src="${p.imatge}" style="width: 200px; border-radius: 8px; margin-bottom: 15px;">` : "";
-    const botonsHtml = respostes.map(resposta => `<button class="resposta">${resposta}</button>`).join('');
+    const botonsHtml = p.respostes.map(resposta => `<button class="resposta">${resposta}</button>`).join('');
     
     elementPartida.innerHTML = `
         <h3>${p.pregunta}</h3>
