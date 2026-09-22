@@ -1,7 +1,7 @@
 {
   "preguntes": [
     {
-      "id": 1,
+      "id": 11,
       "pregunta": "Quina marca de cotxes utilitza el lema 'Ultimate Driving Machine'?",
       "resposta_correcta": "BMW",
       "respostes_incorrectes": [
@@ -12,7 +12,7 @@
       "imatge": "./img/audi.png"
     },
     {
-      "id": 2,
+      "id": 22,
       "pregunta": "Quina marca de tecnologia té una poma mossegada com a logotip?",
       "resposta_correcta": "Apple",
       "respostes_incorrectes": [
@@ -23,7 +23,7 @@
       "imatge": "./img/poma.jpg"
     },
     {
-      "id": 3,
+      "id": 33,
       "pregunta": "Quina marca esportiva és mundialment coneguda pel seu eslògan 'Just Do It'?",
       "resposta_correcta": "Nike",
       "respostes_incorrectes": [
@@ -34,7 +34,7 @@
       "imatge": "./img/deporte.jpg"
     },
     {
-      "id": 4,
+      "id": 44,
       "pregunta": "Quina cadena de menjar ràpid té dos arcs daurats que formen una lletra 'M'?",
       "resposta_correcta": "McDonald's",
       "respostes_incorrectes": [
@@ -45,7 +45,7 @@
       "imatge": "./img/comida.jpg"
     },
     {
-      "id": 5,
+      "id": 55,
       "pregunta": "Quina coneguda marca de begudes té històricament una forta associació amb la imatge del Pare Noel?",
       "resposta_correcta": "Coca-Cola",
       "respostes_incorrectes": [
@@ -56,7 +56,7 @@
       "imatge": "./img/refrescos.jpeg"
     },
     {
-      "id": 6,
+      "id": 66,
       "pregunta": "Quina marca sueca és famosa pels seus mobles que has de muntar tu mateix a casa?",
       "resposta_correcta": "IKEA",
       "respostes_incorrectes": [
@@ -67,7 +67,7 @@
       "imatge": "./img/muebles.jpg"
     },
     {
-      "id": 7,
+      "id": 77,
       "pregunta": "Quina plataforma de streaming de sèries i pel·lícules va començar sent un servei de lloguer de DVDs per correu?",
       "resposta_correcta": "Netflix",
       "respostes_incorrectes": [
@@ -78,7 +78,7 @@
       "imatge": "./img/peliculas.jpg"
     },
     {
-      "id": 8,
+      "id": 88,
       "pregunta": "Quina marca de targetes de crèdit té un logotip format per dos cercles entrellaçats, un vermell i un groc?",
       "resposta_correcta": "Mastercard",
       "respostes_incorrectes": [
@@ -89,7 +89,7 @@
       "imatge": "./img/tar_cred.jpeg"
     },
     {
-      "id": 9,
+      "id": 99,
       "pregunta": "Quina marca de joguines és famosa pels seus blocs de construcció de plàstic acoblables creats a Dinamarca?",
       "resposta_correcta": "LEGO",
       "respostes_incorrectes": [
@@ -100,7 +100,7 @@
       "imatge": "./img/lego.jpg"
     },
     {
-      "id": 10,
+      "id": 101,
       "pregunta": "Quin fabricant d'electrònica produeix la popular línia de telèfons mòbils 'Galaxy'?",
       "resposta_correcta": "Samsung",
       "respostes_incorrectes": [
@@ -111,7 +111,7 @@
       "imatge": "./img/mobiles.jpeg"
     },
     {
-      "id": 11,
+      "id": 111,
       "pregunta": "Quina famosa cadena de cafeteries té una sirena verda de dues cues al seu logotip?",
       "resposta_correcta": "Starbucks",
       "respostes_incorrectes": [
@@ -122,7 +122,7 @@
       "imatge": "./img/cafe.jpg"
     },
     {
-      "id": 12,
+      "id": 122,
       "pregunta": "Quina empresa tecnològica té com a cercador principal un logotip amb lletres de colors blau, vermell, groc i verd?",
       "resposta_correcta": "Google",
       "respostes_incorrectes": [
@@ -130,10 +130,10 @@
         "Bing",
         "DuckDuckGo"
       ],
-      "imatge": "./img/buscador.jpg"
+      "imatge": "./img/buscador.png"
     },
     {
-      "id": 13,
+      "id": 133,
       "pregunta": "Quina marca de moda de luxe francesa és mundialment reconeguda pel seu estampat amb el monograma 'LV'?",
       "resposta_correcta": "Louis Vuitton",
       "respostes_incorrectes": [
@@ -141,21 +141,21 @@
         "Chanel",
         "Prada"
       ],
-      "imatge": "./img/moda.jpg"
+      "imatge": "./img/bolso.jpeg"
     },
     {
-      "id": 14,
+      "id": 144,
       "pregunta": "Quina empresa de comerç electrònic té un logotip amb una fletxa taronja que va de la 'A' a la 'Z' formant un somriure?",
       "resposta_correcta": "Amazon",
       "respostes_incorrectes": [
         "eBay",
         "AliExpress",
-        "Rakuten"
+        "Alibaba"
       ],
       "imatge": "./img/ecommerce.jpg"
     },
     {
-      "id": 15,
+      "id": 155,
       "pregunta": "Quina marca de consoles de videojocs, llançada per Sony el 1994, té uns icònics botons amb forma de triangle, cercle, creu i quadrat?",
       "resposta_correcta": "PlayStation",
       "respostes_incorrectes": [
@@ -163,10 +163,10 @@
         "Nintendo",
         "SEGA"
       ],
-      "imatge": "./img/consola.jpg"
+      "imatge": "./img/consolas.jpeg"
     },
     {
-      "id": 16,
+      "id": 166,
       "pregunta": "Quina empresa fabricant de vehicles elèctrics està liderada per Elon Musk i té un logotip en forma de 'T' estilitzada?",
       "resposta_correcta": "Tesla",
       "respostes_incorrectes": [
@@ -177,7 +177,7 @@
       "imatge": "./img/coche_electrico.jpg"
     },
     {
-      "id": 17,
+      "id": 177,
       "pregunta": "Quina popular marca de begudes energètiques afirma als seus anuncis que 'et dona ales'?",
       "resposta_correcta": "Red Bull",
       "respostes_incorrectes": [
@@ -188,7 +188,7 @@
       "imatge": "./img/bebida_energia.jpg"
     },
     {
-      "id": 18,
+      "id": 188,
       "pregunta": "Quina xarxa social, centrada en la fotografia i els vídeos curts (reels), té un logotip que simula una càmera amb un degradat de colors càlids?",
       "resposta_correcta": "Instagram",
       "respostes_incorrectes": [
@@ -196,10 +196,10 @@
         "Pinterest",
         "Snapchat"
       ],
-      "imatge": "./img/red_social.jpg"
+      "imatge": "./img/red_social.jpeg"
     },
     {
-      "id": 19,
+      "id": 199,
       "pregunta": "Quina marca de cosmètics és famosa arreu del món pel seu eslògan 'Perquè jo ho valc'?",
       "resposta_correcta": "L'Oréal",
       "respostes_incorrectes": [
@@ -210,7 +210,7 @@
       "imatge": "./img/cosmetica.jpg"
     },
     {
-      "id": 20,
+      "id": 201,
       "pregunta": "Quina prestigiosa marca suïssa de rellotges de luxe utilitza com a logotip una corona daurada de cinc puntes?",
       "resposta_correcta": "Rolex",
       "respostes_incorrectes": [
@@ -218,7 +218,7 @@
         "TAG Heuer",
         "Patek Philippe"
       ],
-      "imatge": "./img/relojes.jpg"
+      "imatge": "./img/reloj.avif"
     }
   ]
 }
