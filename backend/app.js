@@ -4,7 +4,7 @@ const { v4: uuidv4 } = require('uuid');
 const path = require('path');
 
 const app = express();
-const port = 3022;
+const port = Number(process.argv[2]) || 40500; 
 
 const preguntes = require('./preguntes.json');
 const respostes = require('./respostes.json');
