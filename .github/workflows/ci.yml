@@ -1,0 +1,38 @@
+name: Auto Merge dev to main
+
+on:
+  push:
+    branches:
+      - dev
+
+jobs:
+  build-and-merge:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Clonar el repositorio
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Configurar Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Instalar dependencias del Backend
+        working-directory: ./backend
+        run: npm ci
+
+      - name: Configurar identidad de Git
+        run: |
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+
+      - name: Hacer merge a main y subir los cambios
+        run: |
+          git checkout main
+          git merge origin/dev --no-edit
+          git push origin main
