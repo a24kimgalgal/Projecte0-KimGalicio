@@ -1,3 +1,4 @@
+/* Reseteig bàsic */
 * {
     box-sizing: border-box;
     margin: 0;
@@ -15,17 +16,27 @@ body {
     padding: 20px;
 }
 
+/* Contenidors principals (Estilos compartidos) */
 #seccio-login, #seccio-quiz {
     background: #ffffff;
     padding: 40px;
     border-radius: 16px;
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
     width: 100%;
-    max-width: 750px;
     text-align: center;
     transition: all 0.3s ease;
 }
 
+/* Tamaños máximos específicos que has pedido */
+#seccio-login {
+    max-width: 400px;
+}
+
+#seccio-quiz {
+    max-width: 750px;
+}
+
+/* Tipografia */
 h2 {
     margin-bottom: 24px;
     font-size: 1.8rem;
@@ -39,6 +50,7 @@ h3 {
     line-height: 1.4;
 }
 
+/* Formularis i Inputs */
 #login-form {
     display: flex;
     flex-direction: column;
@@ -69,6 +81,7 @@ input[type="password"]:focus {
     box-shadow: 0 0 0 3px rgba(62, 142, 208, 0.2);
 }
 
+/* Botons generals */
 button {
     background-color: #3e8ed0;
     color: white;
@@ -90,9 +103,10 @@ button:active {
     transform: translateY(2px);
 }
 
+/* Botons de resposta del quiz */
 #botons {
-    display: flex;
-    flex-direction: column;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* Botones en 2 columnas para aprovechar los 750px */
     gap: 12px;
 }
 
@@ -107,8 +121,10 @@ button:active {
     border-color: #bcccdc;
 }
 
+/* Altres elements del quiz */
 #partida img {
     box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    max-width: 100%; /* Asegura que la imagen no se salga si es muy grande */
 }
 
 #marcador {
@@ -123,12 +139,14 @@ button:active {
 #boto-enviar {
     margin-top: 15px;
     background-color: #48bb78;
+    max-width: 300px; /* Evita que el botón de enviar ocupe los 750px enteros */
 }
 
 #boto-enviar:hover {
     background-color: #38a169;
 }
 
+/* Classes d'utilitat */
 .hidden {
     display: none !important;
 }
