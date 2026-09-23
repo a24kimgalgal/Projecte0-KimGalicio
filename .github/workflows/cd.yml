@@ -22,6 +22,7 @@ jobs:
           git reset --hard origin/main
           
           # 3. Instalar dependencias
+          cd backends
           npm install
           
           # 4. Matar el proceso de screen anterior (evita que se acumulen)
