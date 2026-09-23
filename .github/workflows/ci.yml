@@ -9,13 +9,13 @@ jobs:
   build-and-merge:
     runs-on: ubuntu-latest
     permissions:
-      contents: write 
+      contents: write
 
     steps:
       - name: Clonar el repositorio
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0 
+          fetch-depth: 0
 
       - name: Configurar Node.js
         uses: actions/setup-node@v4
@@ -23,7 +23,7 @@ jobs:
           node-version: '20'
 
       - name: Instalar dependencias del Backend
-        working-directory: ./backend 
+        working-directory: ./backend
         run: npm ci
 
       - name: Configurar identidad de Git
