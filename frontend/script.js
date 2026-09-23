@@ -96,7 +96,7 @@ function iniciarPartida() {
 function renderitzarMarcador() {
     document.getElementById('marcador').innerText = `Preguntes respostes: ${estatDeLaPartida.respostesUsuari.length} de ${estatDeLaPartida.totalPreguntes}`;
 }
-//TODO: Millorar el tema de ensenyar las imatges
+//TODO: Millorar el tema de ensenyar las imatges (FET)
 //TODO: Afegir botó per enviar les respostes al final de la partida i mostrar el resultat
 //TODO: Afegir un sistema de puntuació i mostrar el resultat final amb les respostes correctes i incorrectes
 //TODO: Afegir un sistema de temps per cada pregunta i mostrar el temps en el q ha completat totes les preguntes
