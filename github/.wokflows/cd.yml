@@ -1,0 +1,32 @@
+name: Deploy Servidor Hestia
+
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Deploy via SSH
+      uses: appleboy/ssh-action@v1.0.3
+      with:
+        host: ${{ secrets.SERVER_HOST }} 
+        username: ${{ secrets.SERVER_USER }}
+        password: ${{ secrets.SERVER_PASSWORD }} 
+        script: |
+          # 1. Navegar a la carpeta del proyecto (Ajusta TU_DOMINIO a la ruta real)
+          cd web/a24kimgalgal.daw.inspedralbes.cat/private/Projecte0-KimGalicio
+          
+          # 2. Descargar los últimos cambios
+          git fetch origin
+          git reset --hard origin/main
+          
+          # 3. Instalar dependencias
+          npm install
+          
+          # 4. Matar el proceso de screen anterior (evita que se acumulen)
+          screen -X -S backend quit || true
+          
+          # 5. Iniciar la aplicación en segundo plano con screen
+          screen -dmS backend node app.js
