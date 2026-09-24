@@ -10,12 +10,16 @@ body {
     color: #334e68;
     min-height: 100vh;
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     padding: 20px;
+    gap: 20px;
 }
 
-#seccio-login, #seccio-quiz {
+#seccio-login,
+#seccio-quiz,
+#seccio-salutacio {
     background: #ffffff;
     padding: 40px;
     border-radius: 16px;
@@ -29,8 +33,19 @@ body {
     max-width: 400px;
 }
 
-#seccio-quiz {
+#seccio-quiz,
+#seccio-salutacio {
     max-width: 750px;
+}
+
+#seccio-salutacio {
+    padding: 20px 40px;
+}
+
+.botons-container {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
 }
 
 h2 {
@@ -59,8 +74,9 @@ label {
     color: #486581;
 }
 
-input[type="text"], 
-input[type="password"] {
+input[type="text"],
+input[type="password"],
+input[type="email"] {
     padding: 12px 16px;
     margin-bottom: 20px;
     border: 2px solid #e2e8f0;
@@ -70,8 +86,9 @@ input[type="password"] {
     outline: none;
 }
 
-input[type="text"]:focus, 
-input[type="password"]:focus {
+input[type="text"]:focus,
+input[type="password"]:focus,
+input[type="email"]:focus {
     border-color: #3e8ed0;
     box-shadow: 0 0 0 3px rgba(62, 142, 208, 0.2);
 }
@@ -97,9 +114,17 @@ button:active {
     transform: translateY(2px);
 }
 
+.btn-danger {
+    background-color: #e53e3e;
+}
+
+.btn-danger:hover {
+    background-color: #c53030;
+}
+
 #botons {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); 
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
     gap: 12px;
 }
 
@@ -115,8 +140,8 @@ button:active {
 }
 
 #partida img {
-    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-    max-width: 100%; 
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    max-width: 100%;
 }
 
 #marcador {
@@ -131,7 +156,7 @@ button:active {
 #boto-enviar {
     margin-top: 15px;
     background-color: #48bb78;
-    max-width: 300px; 
+    max-width: 300px;
 }
 
 #boto-enviar:hover {
