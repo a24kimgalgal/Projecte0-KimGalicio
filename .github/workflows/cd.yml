@@ -24,13 +24,9 @@ jobs:
           git fetch origin
           git reset --hard origin/main
           
-          # 3. Instalar dependencias
-          cd backend
-          npm install
+          # 3. Crear archivo .env de producción usando el secreto
+          echo "${{ secrets.ENV_PROD }}" > .env
           
-          # 4. Matar el proceso de screen anterior y liberar el puerto
-          screen -X -S backend quit || true
-          fuser -k 40600/tcp || true
-          
-          # 5. Iniciar la aplicación en segundo plano con screen
-          screen -dmS backend node app.js 40600
+          # 4. Levantar contenedores Docker para producción
+          docker compose -f docker-compose.prod.yml down
+          docker compose -f docker-compose.prod.yml up -d --build

@@ -1,0 +1,14 @@
+FROM node:20-alpine
+
+COPY frontend /frontend
+
+WORKDIR /app
+
+COPY backend/package*.json ./
+RUN npm install --only=production
+
+COPY backend/ .
+
+EXPOSE 40600
+
+CMD ["sh", "-c", "node migrate.js && node app.js"]
