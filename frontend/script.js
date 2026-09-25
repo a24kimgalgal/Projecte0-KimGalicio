@@ -76,7 +76,7 @@ function arrancarQuiz() {
     fetch('/preguntes', { headers: { 'session-id': sessionId } })
         .then(res => res.json())
         .then(data => {
-            console.log("Preguntas recibidas del servidor:", data);
+            console.log("Preguntess rebudes del servidor:", data);
             const preguntesRebudes = data.preguntes || data;
 
             estatDeLaPartida.llistaPreguntes = preguntesRebudes;
@@ -188,4 +188,4 @@ document.getElementById("boto-enviar").addEventListener("click", () => {
 //TODO: Afegir botó per enviar les respostes al final de la partida i mostrar el resultat (FET)
 //TODO: Afegir un sistema de puntuació i mostrar el resultat final amb les respostes correctes i incorrectes
 //TODO: Afegir un sistema de temps per cada pregunta i mostrar el temps en el q ha completat totes les preguntes
-//TODO: Afegir un botó d'eliminar nom
+//TODO: Afegir un botó d'eliminar nom (FET)

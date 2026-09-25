@@ -30,7 +30,6 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.post('/login', (req, res) => {
-  console.log("=== NOVA PETICIÓ A /login ===");
   console.log("Headers:", req.headers);
   console.log("Body:", req.body);
   
