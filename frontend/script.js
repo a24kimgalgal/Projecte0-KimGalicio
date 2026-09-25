@@ -16,16 +16,15 @@ const sessionId = localStorage.getItem('sessionId');
 const savedUsername = localStorage.getItem('username');
 
 if (sessionId && savedUsername) {
-    // Fem el fetch per assegurar-nos que la sessió del localStorage encara existeix al servidor
     fetch('/session', { headers: { 'session-id': sessionId } })
         .then(res => res.json())
         .then(data => {
             if (data.loggedIn) {
                 seccioLogin.classList.add('hidden');
                 document.getElementById('seccio-salutacio').classList.remove('hidden');
+                document.getElementById('top-navbar').classList.remove('hidden');
                 document.getElementById('missatge-salutacio').innerText = `Hola, ${savedUsername}!`;
             } else {
-                // Si la sessió ha caducat o el servidor s'ha reiniciat, netegem
                 localStorage.removeItem('sessionId');
                 localStorage.removeItem('username');
             }
@@ -33,7 +32,7 @@ if (sessionId && savedUsername) {
 }
 
 document.getElementById('boto-començar-joc').addEventListener('click', () => {
-    document.getElementById('boto-començar-joc').classList.add('hidden');
+    document.getElementById('seccio-salutacio').classList.add('hidden');
     arrancarQuiz();
 });
 
@@ -61,6 +60,7 @@ document.getElementById('login-form').addEventListener('submit', (e) => {
 
                 seccioLogin.classList.add('hidden');
                 document.getElementById('seccio-salutacio').classList.remove('hidden');
+                document.getElementById('top-navbar').classList.remove('hidden');
                 document.getElementById('missatge-salutacio').innerText = `Hola, ${data.username}!`;
             } else {
                 alert('Error al iniciar sessió. Comprova les dades.');
@@ -81,10 +81,11 @@ function arrancarQuiz() {
 
             estatDeLaPartida.llistaPreguntes = preguntesRebudes;
             estatDeLaPartida.totalPreguntes = preguntesRebudes.length;
-            
+
             tempsTranscorregut = 0;
             document.getElementById("comptador-temps").innerText = `Temps: 0s`;
             document.getElementById("comptador-temps").classList.remove("hidden");
+            document.getElementById("progress-container").classList.remove("hidden");
             intervalTemps = setInterval(() => {
                 tempsTranscorregut++;
                 document.getElementById("comptador-temps").innerText = `Temps: ${tempsTranscorregut}s`;
@@ -101,7 +102,7 @@ elementPartida.addEventListener("click", (event) => {
         const preguntaActual = estatDeLaPartida.llistaPreguntes[estatDeLaPartida.contadorPreguntes];
 
         estatDeLaPartida.respostesUsuari.push({
-            preguntaId: preguntaActual.id || estatDeLaPartida.contadorPreguntes, // Idealment preguntaActual.id
+            preguntaId: preguntaActual.id || estatDeLaPartida.contadorPreguntes,
             resposta: event.target.innerText
         });
 
@@ -120,7 +121,7 @@ function iniciarPartida() {
     }
 
     const p = estatDeLaPartida.llistaPreguntes[estatDeLaPartida.contadorPreguntes];
-    const imatgeHtml = p.imatge ? `<img src="${p.imatge}" style="width: 200px; border-radius: 8px; margin-bottom: 15px;">` : "";
+    const imatgeHtml = p.imatge ? `<img src="${p.imatge}" alt="Imatge de la pregunta">` : "";
     const botonsHtml = p.respostes.map(resposta => `<button class="resposta">${resposta}</button>`).join('');
 
     elementPartida.innerHTML = `
@@ -134,6 +135,13 @@ function iniciarPartida() {
 
 function renderitzarMarcador() {
     document.getElementById('marcador').innerText = `Preguntes respostes: ${estatDeLaPartida.respostesUsuari.length} de ${estatDeLaPartida.totalPreguntes}`;
+    updateProgressBar();
+}
+
+function updateProgressBar() {
+    if (estatDeLaPartida.totalPreguntes === 0) return;
+    const progress = (estatDeLaPartida.respostesUsuari.length / estatDeLaPartida.totalPreguntes) * 100;
+    document.getElementById('progress-bar').style.width = `${progress}%`;
 }
 
 document.getElementById("boto-enviar").addEventListener("click", () => {
@@ -162,14 +170,16 @@ document.getElementById("boto-enviar").addEventListener("click", () => {
             } else {
                 elementPartida.innerHTML = `
                 <h2>Resultats Finals</h2>
-                <p>Has encertat ${data.encerts} de ${data.total} preguntes.</p>
-                <p>Puntuació: ${data.puntuacio}</p>
-                <p>Temps trigat: ${data.temps} segons</p>
-                <button onclick="location.reload()">Tornar a jugar</button>
+                <div class="results-score">${data.puntuacio}</div>
+                <div class="results-details">
+                    <p>Has encertat <strong>${data.encerts}</strong> de ${data.total} preguntes.</p>
+                    <p>Temps trigat: <strong>${data.temps}</strong> segons</p>
+                </div>
+                <button class="btn-primary btn-large" onclick="location.reload()">Tornar a jugar</button>
             `;
                 document.getElementById("boto-enviar").classList.add("hidden");
-                document.getElementById("marcador").classList.add("hidden");
-                document.getElementById("comptador-temps").classList.add("hidden");
+                document.querySelector(".stats-container").classList.add("hidden");
+                document.getElementById("progress-container").classList.add("hidden");
             }
         })
         .catch(error => console.error("Error enviant respostes:", error));

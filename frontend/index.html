@@ -9,34 +9,42 @@
 </head>
 
 <body>
-
-    <div id="seccio-login">
-        <h2>Login</h2>
-        <form id="login-form">
-            <label for="username">Nom d'usuari:</label><br>
-            <input type="text" id="username" name="username" required><br>
-            <label for="email">Correu electrònic:</label><br>
-            <input type="email" id="email" name="email" required><br>
-            <br>
-            <button type="submit">Iniciar Sessió</button>
-        </form>
-    </div>
-
-    <div id="seccio-salutacio" class="hidden">
-        <h2 id="missatge-salutacio"></h2>
-        <div class="botons-container">
-            <button id="boto-començar-joc">Començar Joc</button>
-            <button id="boto-esborrar-nom" class="btn-danger">Esborrar nom</button>
+    <header id="top-navbar" class="hidden">
+        <div class="navbar-content">
+            <span id="missatge-salutacio"></span>
+            <button id="boto-esborrar-nom" class="btn-outline">Esborrar nom</button>
         </div>
-    </div>
+    </header>
 
-    <div id="seccio-quiz" class="hidden">
-        <div id="partida"></div>
-        <br>
-        <div id="comptador-temps">Temps: 0s</div>
-        <div id="marcador">Preguntes respostes: 0</div>
-        <button id="boto-enviar" class="hidden">Enviar Resultats</button>
-        <br><br>
+    <div class="main-container">
+        <div id="seccio-login" class="card">
+            <h2>Login</h2>
+            <form id="login-form">
+                <label for="username">Nom d'usuari:</label>
+                <input type="text" id="username" name="username" required>
+                <label for="email">Correu electrònic:</label>
+                <input type="email" id="email" name="email" required>
+                <button type="submit" class="btn-primary">Iniciar Sessió</button>
+            </form>
+        </div>
+
+        <div id="seccio-salutacio" class="card hidden">
+            <div class="botons-container">
+                <button id="boto-començar-joc" class="btn-primary btn-large">Començar Joc</button>
+            </div>
+        </div>
+
+        <div id="seccio-quiz" class="card hidden">
+            <div id="progress-container" class="hidden">
+                <div id="progress-bar"></div>
+            </div>
+            <div id="partida"></div>
+            <div class="stats-container">
+                <div id="comptador-temps">Temps: 0s</div>
+                <div id="marcador">Preguntes respostes: 0</div>
+            </div>
+            <button id="boto-enviar" class="btn-success hidden">Enviar Resultats</button>
+        </div>
     </div>
 
     <script src="script.js"></script>
