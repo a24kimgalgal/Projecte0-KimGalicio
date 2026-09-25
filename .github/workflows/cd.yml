@@ -1,6 +1,9 @@
 name: Deploy Servidor Hestia
 
 on:
+  push:
+    branches:
+      - main
   workflow_dispatch:  
 
 jobs:
@@ -25,8 +28,9 @@ jobs:
           cd backend
           npm install
           
-          # 4. Matar el proceso de screen anterior (evita que se acumulen)
+          # 4. Matar el proceso de screen anterior y liberar el puerto
           screen -X -S backend quit || true
+          fuser -k 40600/tcp || true
           
           # 5. Iniciar la aplicación en segundo plano con screen
-          screen -dmS backend node app.js
+          screen -dmS backend node app.js 40600
