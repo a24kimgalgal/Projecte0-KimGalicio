@@ -144,13 +144,20 @@ button:active {
     max-width: 100%;
 }
 
-#marcador {
+#marcador,
+#comptador-temps {
     margin-top: 20px;
     font-size: 1rem;
     font-weight: 600;
     color: #627d98;
     padding-top: 15px;
     border-top: 1px solid #f0f4f8;
+}
+
+#comptador-temps {
+    margin-top: 10px;
+    border-top: none;
+    color: #e53e3e;
 }
 
 #boto-enviar {

@@ -9,6 +9,9 @@ let estatDeLaPartida = {
     llistaPreguntes: []
 };
 
+let intervalTemps;
+let tempsTranscorregut = 0;
+
 const sessionId = localStorage.getItem('sessionId');
 const savedUsername = localStorage.getItem('username');
 
@@ -78,6 +81,15 @@ function arrancarQuiz() {
 
             estatDeLaPartida.llistaPreguntes = preguntesRebudes;
             estatDeLaPartida.totalPreguntes = preguntesRebudes.length;
+            
+            tempsTranscorregut = 0;
+            document.getElementById("comptador-temps").innerText = `Temps: 0s`;
+            document.getElementById("comptador-temps").classList.remove("hidden");
+            intervalTemps = setInterval(() => {
+                tempsTranscorregut++;
+                document.getElementById("comptador-temps").innerText = `Temps: ${tempsTranscorregut}s`;
+            }, 1000);
+
             iniciarPartida();
             renderitzarMarcador();
         })
@@ -101,6 +113,7 @@ elementPartida.addEventListener("click", (event) => {
 
 function iniciarPartida() {
     if (estatDeLaPartida.contadorPreguntes >= estatDeLaPartida.totalPreguntes) {
+        clearInterval(intervalTemps);
         elementPartida.innerHTML = "<h2>Partida Acabada!</h2>";
         document.getElementById("boto-enviar").classList.remove("hidden");
         return;
@@ -137,7 +150,10 @@ document.getElementById("boto-enviar").addEventListener("click", () => {
             'Content-Type': 'application/json',
             'session-id': sessionId
         },
-        body: JSON.stringify(respostesObject)
+        body: JSON.stringify({
+            respostes: respostesObject,
+            temps: tempsTranscorregut
+        })
     })
         .then(res => res.json())
         .then(data => {
@@ -148,10 +164,12 @@ document.getElementById("boto-enviar").addEventListener("click", () => {
                 <h2>Resultats Finals</h2>
                 <p>Has encertat ${data.encerts} de ${data.total} preguntes.</p>
                 <p>Puntuació: ${data.puntuacio}</p>
+                <p>Temps trigat: ${data.temps} segons</p>
                 <button onclick="location.reload()">Tornar a jugar</button>
             `;
                 document.getElementById("boto-enviar").classList.add("hidden");
                 document.getElementById("marcador").classList.add("hidden");
+                document.getElementById("comptador-temps").classList.add("hidden");
             }
         })
         .catch(error => console.error("Error enviant respostes:", error));

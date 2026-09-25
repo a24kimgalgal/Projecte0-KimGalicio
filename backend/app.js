@@ -82,7 +82,8 @@ app.post('/respostes', (req, res) => {
     return res.status(400).json({ error: 'No hi ha preguntes iniciades per aquesta sessió' });
   }
 
-  const respostesUsuari = req.body || {};
+  const respostesUsuari = req.body.respostes || {};
+  const tempsUsuari = req.body.temps || 0;
   let encerts = 0;
   const total = preguntesPartida.length;
 
@@ -95,7 +96,8 @@ app.post('/respostes', (req, res) => {
   res.json({
     puntuacio: `${encerts}/${total}`,
     encerts: encerts,
-    total: total
+    total: total,
+    temps: tempsUsuari
   });
 });
 
