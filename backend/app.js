@@ -30,6 +30,10 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.post('/login', (req, res) => {
+  console.log("=== NOVA PETICIÓ A /login ===");
+  console.log("Headers:", req.headers);
+  console.log("Body:", req.body);
+  
   const { username, email } = req.body;
   if (username && email) {
     const sessionId = uuidv4();
@@ -37,6 +41,7 @@ app.post('/login', (req, res) => {
 
     res.json({ success: true, sessionId: sessionId, username: username });
   } else {
+    console.log("Falten dades. Retornant 400 Bad Request.");
     res.status(400).json({ success: false, message: 'Nom d\'usuari i email requerits' });
   }
 });
