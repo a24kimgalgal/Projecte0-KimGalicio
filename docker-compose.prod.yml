@@ -13,7 +13,7 @@ services:
       - DB_PASSWORD=${MYSQL_PASSWORD}
       - DB_NAME=${MYSQL_DATABASE}
     ports:
-      - "40600:40600"
+      - "40602:40600"
     depends_on:
       db:
         condition: service_healthy
