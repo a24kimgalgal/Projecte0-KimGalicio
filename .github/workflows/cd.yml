@@ -50,4 +50,5 @@ jobs:
 
             screen -S quiz-app -X quit 2>/dev/null || true
             screen -S backend -X quit 2>/dev/null || true
-            screen -dmS quiz-app bash -lc 'cd ~/web/a24kimgalgal.daw.inspedralbes.cat/private/Projecte0-KimGalicio/backend && node migrate.js > debug.log 2>&1 && node app.js >> debug.log 2>&1'
+            pkill -f 'node app.js' || true
+            screen -dmS quiz-app bash -lc 'cd ~/web/a24kimgalgal.daw.inspedralbes.cat/private/Projecte0-KimGalicio/backend && echo "Arrancando migrate..." > debug.log && node migrate.js >> debug.log 2>&1 && echo "Arrancando app..." >> debug.log && node app.js >> debug.log 2>&1'
