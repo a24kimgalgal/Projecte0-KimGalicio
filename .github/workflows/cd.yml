@@ -33,16 +33,15 @@ jobs:
           username: ${{ secrets.SERVER_USER }}
           password: ${{ secrets.SERVER_PASSWORD }}
           script: |
-            # 1. Navegar a la carpeta del proyecto
             cd web/a24kimgalgal.daw.inspedralbes.cat/private/Projecte0-KimGalicio
 
-            # 2. Descargar los últimos cambios
             git fetch origin
             git reset --hard origin/main
 
-            # 3. Crear archivo .env de producción usando el secreto
             echo "${{ secrets.ENV_PROD }}" > .env
+            chmod 600 .env
 
-            # 4. Levantar contenedores Docker para producción
-            docker compose -f docker-compose.prod.yml down
-            docker compose -f docker-compose.prod.yml up -d --build
+            npm install --prefix backend --no-fund --no-audit
+
+            screen -ls | grep -q "quiz-app" && screen -S quiz-app -X quit || true
+            screen -dmS quiz-app bash -lc 'cd web/a24kimgalgal.daw.inspedralbes.cat/private/Projecte0-KimGalicio/backend && node migrate.js && node app.js'

@@ -29,9 +29,6 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.post('/login', (req, res) => {
-  console.log("Headers:", req.headers);
-  console.log("Body:", req.body);
-
   const { username, email } = req.body;
   if (username && email) {
     const sessionId = uuidv4();
@@ -182,7 +179,7 @@ app.delete('/api/preguntes/:id', (req, res) => {
 });
 
 if (require.main === module) {
-  app.listen(port, () => {
+  app.listen(port, '127.0.0.1', () => {
     console.log(`Servidor escoltant a http://localhost:${port}`);
   });
 }
