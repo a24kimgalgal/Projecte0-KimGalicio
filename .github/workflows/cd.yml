@@ -38,17 +38,33 @@ jobs:
             git fetch origin
             git reset --hard origin/main
 
-            echo "DB_HOST_PROD=${{ secrets.DB_HOST_PROD }}" > backend/.env
-            echo "DB_PORT_PROD=3306" >> backend/.env
-            echo "DB_USER_PROD=${{ secrets.DB_USER_PROD }}" >> backend/.env
-            echo "DB_PASSWORD_PROD=${{ secrets.DB_PASSWORD_PROD }}" >> backend/.env
-            echo "DB_NAME_PROD=${{ secrets.DB_NAME_PROD }}" >> backend/.env
+            echo "DB_HOST_PROD=${{ secrets.DB_HOST_PROD }}" > .env
+            echo "DB_PORT_PROD=3306" >> .env
+            echo "DB_USER_PROD=${{ secrets.DB_USER_PROD }}" >> .env
+            echo "DB_PASSWORD_PROD=${{ secrets.DB_PASSWORD_PROD }}" >> .env
+            echo "DB_NAME_PROD=${{ secrets.DB_NAME_PROD }}" >> .env
             
-            chmod 600 backend/.env
+            chmod 600 .env
 
             npm install --prefix backend --no-fund --no-audit
 
+            cd backend
+
+            echo ">> Ejecutando migraciones..."
+            node migrate.js
+
+            echo ">> Deteniendo servidor anterior..."
             screen -S quiz-app -X quit 2>/dev/null || true
             screen -S backend -X quit 2>/dev/null || true
             pkill -f 'node app.js' || true
-            nohup bash -lc 'cd ~/web/a24kimgalgal.daw.inspedralbes.cat/private/Projecte0-KimGalicio/backend && echo "Arrancando migrate..." > debug.log && node migrate.js >> debug.log 2>&1 && echo "Arrancando app..." >> debug.log && node app.js >> debug.log 2>&1' </dev/null >/dev/null 2>&1 &
+
+            rm -f app.log
+
+            echo ">> Iniciando servidor con screen..."
+            screen -L -Logfile app.log -dmS backend node app.js
+
+            echo ">> Esperando 3 segundos para leer el log de inicio..."
+            sleep 3
+            
+            echo ">> Salida de la aplicacion (app.log):"
+            cat app.log
