@@ -1,11 +1,13 @@
 const mysql = require('mysql');
 
+require('dotenv').config();
+
 const con = mysql.createConnection({
-  host: process.env.DB_HOST || "localhost",
-  port: process.env.DB_PORT || 3306,
-  user: process.env.DB_USER || "a24kimgalgal",
-  password: process.env.DB_PASSWORD || "QuizDbPassword",
-  database: process.env.DB_NAME || "quiz_db"
+  host: process.env.DB_HOST_PROD || process.env.DB_HOST,
+  port: process.env.DB_PORT_PROD || process.env.DB_PORT,
+  user: process.env.DB_USER_PROD || process.env.DB_USER,
+  password: process.env.DB_PASSWORD_PROD || process.env.DB_PASSWORD,
+  database: process.env.DB_NAME_PROD || process.env.DB_NAME
 });
 
 con.connect(function (err) {

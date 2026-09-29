@@ -38,7 +38,7 @@ jobs:
             git fetch origin
             git reset --hard origin/main
 
-            echo "${{ secrets.ENV_PROD }}" > .env
+            echo "${{ secrets.ENV_PROD }}" > backend/.env
             chmod 600 .env
 
             npm install --prefix backend --no-fund --no-audit
