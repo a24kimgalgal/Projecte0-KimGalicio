@@ -43,5 +43,6 @@ jobs:
 
             npm install --prefix backend --no-fund --no-audit
 
-            screen -ls | grep -q "quiz-app" && screen -S quiz-app -X quit || true
+            screen -S quiz-app -X quit 2>/dev/null || true
+            screen -S backend -X quit 2>/dev/null || true
             screen -dmS quiz-app bash -lc 'cd web/a24kimgalgal.daw.inspedralbes.cat/private/Projecte0-KimGalicio/backend && node migrate.js && node app.js'
