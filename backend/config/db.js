@@ -3,7 +3,8 @@ const path = require('path');
 
 require('dotenv').config({ path: path.join(__dirname, '../../.env') });
 
-const con = mysql.createConnection({
+const pool = mysql.createPool({
+  connectionLimit: 10,
   host: process.env.DB_HOST_PROD || process.env.DB_HOST,
   port: process.env.DB_PORT_PROD || process.env.DB_PORT,
   user: process.env.DB_USER_PROD || process.env.DB_USER,
@@ -11,9 +12,24 @@ const con = mysql.createConnection({
   database: process.env.DB_NAME_PROD || process.env.DB_NAME
 });
 
-con.connect(function (err) {
-  if (err) throw err;
-  console.log("Connectat correctament a la base de dades MySQL!");
+pool.getConnection((err, connection) => {
+  if (err) {
+    if (err.code === 'PROTOCOL_CONNECTION_LOST') {
+      console.error('Database connection was closed.');
+    }
+    if (err.code === 'ER_CON_COUNT_ERROR') {
+      console.error('Database has too many connections.');
+    }
+    if (err.code === 'ECONNREFUSED') {
+      console.error('Database connection was refused.');
+    }
+    console.error('Error connecting to database:', err);
+  }
+  
+  if (connection) {
+    console.log("Connectat correctament a la base de dades MySQL!");
+    connection.release();
+  }
 });
 
-module.exports = con;
+module.exports = pool;

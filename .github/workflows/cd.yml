@@ -56,7 +56,6 @@ jobs:
             echo ">> Deteniendo servidor anterior..."
             screen -S quiz-app -X quit 2>/dev/null || true
             screen -S backend -X quit 2>/dev/null || true
-            pkill -f 'node app.js' || true
 
             rm -f app.log
 
