@@ -179,7 +179,7 @@ app.delete('/api/preguntes/:id', (req, res) => {
 });
 
 if (require.main === module) {
-  app.listen(port, '127.0.0.1', () => {
+  app.listen(port, () => {
     console.log(`Servidor escoltant a http://localhost:${port}`);
   });
 }
