@@ -57,13 +57,5 @@ jobs:
             screen -S quiz-app -X quit 2>/dev/null || true
             screen -S backend -X quit 2>/dev/null || true
 
-            rm -f app.log
-
             echo ">> Iniciando servidor con screen..."
-            screen -L -Logfile app.log -dmS backend node app.js
-
-            echo ">> Esperando 3 segundos para leer el log de inicio..."
-            sleep 3
-            
-            echo ">> Salida de la aplicacion (app.log):"
-            cat app.log
+            screen -dmS backend node app.js
