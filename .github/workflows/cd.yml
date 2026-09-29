@@ -38,11 +38,16 @@ jobs:
             git fetch origin
             git reset --hard origin/main
 
-            echo "${{ secrets.ENV_PROD }}" > backend/.env
-            chmod 600 .env
+            echo "DB_HOST_PROD=${{ secrets.DB_HOST_PROD }}" > backend/.env
+            echo "DB_PORT_PROD=3306" >> backend/.env
+            echo "DB_USER_PROD=${{ secrets.DB_USER_PROD }}" >> backend/.env
+            echo "DB_PASSWORD_PROD=${{ secrets.DB_PASSWORD_PROD }}" >> backend/.env
+            echo "DB_NAME_PROD=${{ secrets.DB_NAME_PROD }}" >> backend/.env
+            
+            chmod 600 backend/.env
 
             npm install --prefix backend --no-fund --no-audit
 
             screen -S quiz-app -X quit 2>/dev/null || true
             screen -S backend -X quit 2>/dev/null || true
-            screen -dmS quiz-app bash -lc 'cd web/a24kimgalgal.daw.inspedralbes.cat/private/Projecte0-KimGalicio/backend && node migrate.js && node app.js'
+            screen -dmS quiz-app bash -lc 'cd web/a24kimgalgal.daw.inspedralbes.cat/private/Projecte0-KimGalicio/backend && node migrate.js > debug.log 2>&1 && node app.js >> debug.log 2>&1'
