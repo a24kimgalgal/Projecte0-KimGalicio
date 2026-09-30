@@ -23,35 +23,45 @@ CREATE TABLE IF NOT EXISTS respostes (
     FOREIGN KEY (pregunta_id) REFERENCES preguntes(id) ON DELETE CASCADE
 )`;
 
-con.query(createPreguntesTable, function (err) {
-    if (err) throw err;
+const queryAsync = (sql, values = []) => {
+    return new Promise((resolve, reject) => {
+        con.query(sql, values, (err, result) => {
+            if (err) reject(err);
+            else resolve(result);
+        });
+    });
+};
 
-    con.query(createRespostesTable, function (err) {
-        if (err) throw err;
-        preguntes.forEach(q => {
+async function runMigration() {
+    try {
+        await queryAsync(createPreguntesTable);
+        await queryAsync(createRespostesTable);
+
+        for (const q of preguntes) {
             const sqlPregunta = "INSERT IGNORE INTO preguntes (id, pregunta, imatge) VALUES (?, ?, ?)";
-            con.query(sqlPregunta, [q.id, q.pregunta, q.imatge], function (err, result) {
-                if (err) return;
+            const result = await queryAsync(sqlPregunta, [q.id, q.pregunta, q.imatge]);
 
-                if (result.affectedRows === 0) return;
-
+            if (result.affectedRows > 0) {
                 const sqlRespostes = "INSERT INTO respostes (pregunta_id, resposta, es_correcta) VALUES (?, ?, ?)";
 
-                con.query(sqlRespostes, [q.id, q.resposta_correcta, true], function (err) {
-                    if (err) throw err;
-                });
+                await queryAsync(sqlRespostes, [q.id, q.resposta_correcta, true]);
 
-                q.respostes_incorrectes.forEach(resp_inc => {
-                    con.query(sqlRespostes, [q.id, resp_inc, false], function (err) {
-                        if (err) throw err;
-                    });
-                });
-            });
-        });
+                for (const resp_inc of q.respostes_incorrectes) {
+                    await queryAsync(sqlRespostes, [q.id, resp_inc, false]);
+                }
+            }
+        }
 
-        setTimeout(() => {
-            console.log("Migració completada.");
+        console.log("Migració completada amb èxit.");
+    } catch (error) {
+        console.error("Error durant la migració:", error);
+    } finally {
+        con.end((err) => {
+            if (err) console.error("Error tancant el pool de connexions:", err);
+            else console.log("Connexió tancada correctament.");
             process.exit(0);
-        }, 3000);
-    });
-});
+        });
+    }
+}
+
+runMigration();

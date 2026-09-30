@@ -1,5 +1,11 @@
 # Documentació tècnica del projecte
 
+## Wireframe i flux de pantalles (mobile)
+
+Enllaç al prototip de Penpot amb el wireframe bàsic i el flux de pantalles de l'aplicació en format mobile:
+
+En desenvolupament...
+
 ## Visió general
 
 Aquest projecte consisteix en un joc de preguntes sobre marques i empreses conegudes. L'aplicació està dividida en dues capes principals:
