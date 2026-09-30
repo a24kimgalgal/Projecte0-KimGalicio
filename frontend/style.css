@@ -224,7 +224,7 @@ button {
     max-width: 350px;
     height: 180px;
     object-fit: cover;
-    border-radius: 0cqh;
+    border-radius: 10px;
     margin: 12px auto 16px;
     display: block;
 }
