@@ -54,8 +54,8 @@ body {
 .card {
     background: #ffffff;
     padding: 30px 40px;
-    border-radius: 20px;
-    box-shadow: 0 10px 40px -10px rgba(0,0,0,0.1);
+    border-radius: 10px;
+    /*box-shadow: 0 10px 40px -10px rgba(0,0,0,0.1);*/
     width: 100%;
     max-width: 850px;
     text-align: center;
@@ -219,12 +219,12 @@ button {
 .hidden { display: none !important; }
 
 #partida img {
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+    /*box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);*/
     width: 100%;
     max-width: 350px;
     height: 180px;
     object-fit: cover;
-    border-radius: 12px;
+    border-radius: 0cqh;
     margin: 12px auto 16px;
     display: block;
 }
@@ -241,4 +241,4 @@ button {
     font-size: 1.1rem;
     color: #4a5568;
     margin-bottom: 32px;
-}
+}
