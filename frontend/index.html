@@ -6,49 +6,75 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Joc de preguntes</title>
     <link rel="icon" type="image/x-icon" href="img/favicon.ico">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
     <header id="top-navbar" class="hidden">
         <div class="navbar-content">
-            <span id="missatge-salutacio"></span>
-            <button id="boto-esborrar-nom" class="btn-outline">Esborrar nom</button>
+            <div class="brand-wrap">
+                <span class="brand-mark">Q</span>
+                <span class="brand-text">QuizFlow</span>
+            </div>
+            <div class="top-actions">
+                <span id="missatge-salutacio"></span>
+                <button id="boto-esborrar-nom" class="btn btn-outline-primary btn-sm btn-logout">Esborrar nom</button>
+            </div>
         </div>
     </header>
 
-    <div class="main-container">
-        <div id="seccio-login" class="card">
-            <h2>Login</h2>
-            <form id="login-form">
-                <label for="username">Nom d'usuari:</label>
+    <main class="main-container">
+        <div id="seccio-login" class="card auth-card">
+            <div class="card-header text-center">
+                <span class="eyebrow">Accés</span>
+                <h2>Inicia sessió</h2>
+            </div>
+            <form id="login-form" class="login-form">
+                <label for="username">Nom d'usuari</label>
                 <input type="text" id="username" name="username" required>
-                <label for="email">Correu electrònic:</label>
+                <label for="email">Correu electrònic</label>
                 <input type="email" id="email" name="email" required>
-                <button type="submit" class="btn-primary">Iniciar Sessió</button>
+                <button type="submit" class="btn btn-primary btn-block">Iniciar sessió</button>
             </form>
         </div>
 
-        <div id="seccio-salutacio" class="card hidden">
-            <div class="botons-container">
-                <button id="boto-començar-joc" class="btn-primary btn-large">Començar Joc</button>
-            </div>
+        <div id="seccio-salutacio" class="card hidden welcome-card">
+            <span class="eyebrow">Preparat?</span>
+            <h2>Comença la partida</h2>
+            <p>Respon a cada pregunta amb calma i avança només quan hagis seleccionat una resposta.</p>
+            <button id="boto-començar-joc" class="btn btn-primary btn-large">Començar joc</button>
         </div>
 
-        <div id="seccio-quiz" class="card hidden">
-            <div id="progress-container" class="hidden">
-                <div id="progress-bar"></div>
+        <div id="seccio-quiz" class="card hidden quiz-card">
+            <div class="quiz-layout">
+                <section class="quiz-main">
+                    <div id="progress-container" class="hidden">
+                        <div id="progress-bar"></div>
+                    </div>
+                    <div id="partida" class="question-panel"></div>
+                    <button type="button" id="boto-seguent" class="btn btn-primary btn-next hidden" disabled>Següent pregunta</button>
+                    <div class="stats-container">
+                        <div id="comptador-temps">Temps: 0s</div>
+                        <div id="marcador">Preguntes respostes: 0</div>
+                    </div>
+                    <button id="boto-enviar" class="btn btn-success btn-block hidden">Enviar Resultats</button>
+                </section>
+
+                <aside id="quiz-sidebar" class="quiz-sidebar">
+                    <div class="sidebar-header">
+                        <span>Preguntes</span>
+                        <button type="button" id="sidebar-toggle" class="sidebar-toggle" aria-expanded="true" aria-label="Ocultar panell lateral" title="Ocultar panell">
+                            <span class="toggle-icon" aria-hidden="true">›</span>
+                        </button>
+                    </div>
+                    <div id="question-nav" class="question-nav"></div>
+                </aside>
             </div>
-            <div id="partida"></div>
-            <div class="stats-container">
-                <div id="comptador-temps">Temps: 0s</div>
-                <div id="marcador">Preguntes respostes: 0</div>
-            </div>
-            <button id="boto-enviar" class="btn-success hidden">Enviar Resultats</button>
         </div>
-    </div>
+    </main>
 
     <script src="script.js"></script>
-    <link rel="stylesheet" href="style.css">
 </body>
 
 </html>

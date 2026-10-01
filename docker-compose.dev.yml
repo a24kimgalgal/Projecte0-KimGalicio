@@ -17,7 +17,7 @@ services:
       - ./frontend:/frontend
       - /app/node_modules
     ports:
-      - "40601:40600"
+      - "40600:40600"
     depends_on:
       db:
         condition: service_healthy
