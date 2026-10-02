@@ -19,7 +19,8 @@
             </div>
             <div class="top-actions">
                 <span id="missatge-salutacio"></span>
-                <button id="boto-esborrar-nom" class="btn btn-outline-primary btn-sm btn-logout">Esborrar nom</button>
+                <button id="boto-tornar-inici" class="btn btn-outline-primary btn-sm btn-logout hidden">Tornar a l'inici</button>
+                <button id="boto-esborrar-nom" class="btn btn-outline-primary btn-sm btn-logout">Tancar sessió</button>
             </div>
         </div>
     </header>
@@ -39,11 +40,12 @@
             </form>
         </div>
 
-        <div id="seccio-salutacio" class="card hidden welcome-card">
-            <span class="eyebrow">Preparat?</span>
-            <h2>Comença la partida</h2>
-            <p>Respon a cada pregunta amb calma i avança només quan hagis seleccionat una resposta.</p>
-            <button id="boto-començar-joc" class="btn btn-primary btn-large">Començar joc</button>
+        <div id="seccio-lobby" class="card hidden lobby-card">
+            <div class="text-center lobby-header">
+                <span class="eyebrow">Menú principal</span>
+                <h2>Benvingut/da</h2>
+            </div>
+            <div id="lobby-actions" class="lobby-actions"></div>
         </div>
 
         <div id="seccio-quiz" class="card hidden quiz-card">

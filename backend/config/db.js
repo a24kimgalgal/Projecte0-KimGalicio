@@ -3,33 +3,48 @@ const path = require('path');
 
 require('dotenv').config({ path: path.join(__dirname, '../../.env') });
 
-const pool = mysql.createPool({
-  connectionLimit: 10,
-  host: process.env.DB_HOST_PROD || process.env.DB_HOST,
-  port: process.env.DB_PORT_PROD || process.env.DB_PORT,
-  user: process.env.DB_USER_PROD || process.env.DB_USER,
-  password: process.env.DB_PASSWORD_PROD || process.env.DB_PASSWORD,
-  database: process.env.DB_NAME_PROD || process.env.DB_NAME
-});
+function envValue(key, fallback) {
+  const value = process.env[key];
+  return value === undefined || value === null ? fallback : String(value).trim();
+}
 
-pool.getConnection((err, connection) => {
-  if (err) {
-    if (err.code === 'PROTOCOL_CONNECTION_LOST') {
-      console.error('Database connection was closed.');
+const config = {
+  connectionLimit: 10,
+  host: envValue('DB_HOST_PROD', envValue('DB_HOST', 'db')),
+  port: Number(envValue('DB_PORT_PROD', envValue('DB_PORT', '3306'))),
+  user: envValue('DB_USER_PROD', envValue('DB_USER', 'root')),
+  password: envValue('DB_PASSWORD_PROD', envValue('DB_PASSWORD', '')),
+  database: envValue('DB_NAME_PROD', envValue('DB_NAME', 'quiz_db'))
+};
+
+const pool = mysql.createPool(config);
+
+function tryConnect(retriesLeft = 20) {
+  pool.getConnection((err, connection) => {
+    if (err) {
+      if (err.code === 'ECONNREFUSED' && retriesLeft > 0) {
+        console.warn(`MySQL no està disponible encara. Reintentant en 2s (${retriesLeft} intents restants)...`);
+        return setTimeout(() => tryConnect(retriesLeft - 1), 2000);
+      }
+
+      if (err.code === 'PROTOCOL_CONNECTION_LOST') {
+        console.error('La connexió amb la base de dades es va tancar.');
+      }
+      if (err.code === 'ER_CON_COUNT_ERROR') {
+        console.error('La base de dades té massa connexions.');
+      }
+      if (err.code === 'ECONNREFUSED') {
+        console.error('La connexió amb la base de dades ha estat rebutjada.');
+      }
+      console.error('Error en connectar a la base de dades:', err);
+      return;
     }
-    if (err.code === 'ER_CON_COUNT_ERROR') {
-      console.error('Database has too many connections.');
-    }
-    if (err.code === 'ECONNREFUSED') {
-      console.error('Database connection was refused.');
-    }
-    console.error('Error connecting to database:', err);
-  }
-  
-  if (connection) {
-    console.log("Connectat correctament a la base de dades MySQL!");
+
+    console.log('Connectat correctament a la base de dades MySQL!');
     connection.release();
-  }
-});
+  });
+}
+
+tryConnect();
 
 module.exports = pool;

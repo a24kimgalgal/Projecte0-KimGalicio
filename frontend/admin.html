@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="ca">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panell d’administració</title>
+    <link rel="icon" type="image/x-icon" href="img/favicon.ico">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <header id="top-navbar">
+        <div class="navbar-content">
+            <div class="brand-wrap">
+                <span class="brand-mark">Q</span>
+                <span class="brand-text">QuizFlow</span>
+            </div>
+            <div class="top-actions">
+                <span id="missatge-salutacio">Panell d’administració</span>
+                <button id="btn-volver-juego" type="button" class="btn btn-outline-primary btn-sm btn-logout">
+                    Tornar a l'inici
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main class="main-container">
+        <div class="card admin-panel">
+            <div class="admin-header">
+                <div>
+                    <span class="eyebrow">Administració</span>
+                    <h2>Gestió de preguntes</h2>
+                </div>
+            </div>
+
+            <div class="admin-layout">
+                <section class="admin-list-panel">
+                    <div class="panel-header-row">
+                        <h3>Preguntes</h3>
+                        <button id="btn-nova-pregunta" type="button" class="btn btn-primary btn-small">Nova pregunta</button>
+                    </div>
+                    <div class="table-wrap">
+                        <table class="admin-table">
+                            <thead>
+                                <tr>
+                                    <th>Enunciat</th>
+                                    <th>Imatge</th>
+                                    <th>Accions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="admin-questions-body"></tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <section class="admin-form-panel">
+                    <h3 id="admin-form-title">Crear pregunta</h3>
+                    <form id="admin-question-form" class="admin-question-form">
+                        <input type="hidden" id="question-id" name="question-id" value="">
+
+                        <label for="pregunta-text">Pregunta</label>
+                        <textarea id="pregunta-text" name="pregunta" rows="3" required></textarea>
+
+                        <div class="options-grid">
+                            <div class="option-item">
+                                <label for="opcio-1">Opció 1</label>
+                                <input type="text" id="opcio-1" name="opcio-1" required>
+                            </div>
+                            <div class="option-item">
+                                <label for="opcio-2">Opció 2</label>
+                                <input type="text" id="opcio-2" name="opcio-2" required>
+                            </div>
+                            <div class="option-item">
+                                <label for="opcio-3">Opció 3</label>
+                                <input type="text" id="opcio-3" name="opcio-3" required>
+                            </div>
+                            <div class="option-item">
+                                <label for="opcio-4">Opció 4</label>
+                                <input type="text" id="opcio-4" name="opcio-4" required>
+                            </div>
+                        </div>
+
+                        <fieldset class="correct-answer-group">
+                            <legend>Resposta correcta</legend>
+                            <div class="radio-row">
+                                <label><input type="radio" name="correcta" value="0" checked> Opció 1</label>
+                                <label><input type="radio" name="correcta" value="1"> Opció 2</label>
+                                <label><input type="radio" name="correcta" value="2"> Opció 3</label>
+                                <label><input type="radio" name="correcta" value="3"> Opció 4</label>
+                            </div>
+                        </fieldset>
+
+                        <label for="question-image">Imatge de la pregunta</label>
+                        <input type="file" id="question-image" name="image" accept="image/*">
+
+                        <button type="submit" id="admin-submit-btn" class="btn btn-primary btn-block">Guardar pregunta</button>
+                        <button type="button" id="admin-cancel-btn" class="btn btn-outline-primary btn-block secondary-btn">Cancel·lar</button>
+                    </form>
+                </section>
+            </div>
+        </div>
+    </main>
+
+    <script src="admin.js"></script>
+</body>
+
+</html>

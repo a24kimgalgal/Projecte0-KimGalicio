@@ -7,13 +7,14 @@
     "test": "jest"
   },
   "keywords": [],
-  "author": "",
+  "author": "Kim_Galicio",
   "license": "ISC",
   "type": "commonjs",
   "dependencies": {
     "cors": "^2.8.6",
     "dotenv": "^18.0.4",
     "express": "^5.2.1",
+    "multer": "^2.4.0",
     "mysql": "^2.18.1",
     "nodemon": "^3.1.14",
     "uuid": "^14.0.2"
