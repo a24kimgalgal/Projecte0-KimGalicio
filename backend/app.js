@@ -162,6 +162,7 @@ app.get('/preguntes', (req, res) => {
         id: q.id,
         pregunta: q.pregunta,
         imatge: q.imatge,
+        resposta_correcta: q.resposta_correcta,
         respostes: barrejarPreguntes([q.resposta_correcta, ...q.respostes_incorrectes])
       }));
 

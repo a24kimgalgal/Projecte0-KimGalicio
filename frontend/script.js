@@ -12,6 +12,8 @@ const isAdminUser = () => sessionStorage.getItem('isAdmin') === 'true';
 const lobbyActions = document.getElementById('lobby-actions');
 const botoTornarInici = document.getElementById('boto-tornar-inici');
 
+//TODO: arreglar respuesta correcta
+
 function escapeHtml(value) {
     return String(value ?? '')
         .replace(/&/g, '&amp;')
@@ -116,7 +118,8 @@ let estatDeLaPartida = {
     contadorPreguntes: 0,
     respostesUsuari: [],
     totalPreguntes: 0,
-    llistaPreguntes: []
+    llistaPreguntes: [],
+    mode: 'quiz'
 };
 
 let intervalTemps;
@@ -197,36 +200,28 @@ document.getElementById('login-form').addEventListener('submit', (e) => {
 });
 
 function actualizarEtiquetaSidebar() {
-    if (!sidebarToggle || !sidebar) return;
+    if (!sidebar || !quizLayout) return;
 
-    const isCollapsed = sidebar.classList.contains('collapsed');
-    const label = isCollapsed ? 'Mostrar preguntes' : 'Ocultar preguntes';
-
-    sidebarToggle.setAttribute('aria-expanded', String(!isCollapsed));
-    sidebarToggle.setAttribute('aria-label', label);
-    sidebarToggle.title = label;
-
-    const textNode = sidebarToggle.querySelector('.toggle-text');
-    if (textNode) {
-        textNode.textContent = label;
-    }
+    sidebar.classList.remove('collapsed');
+    quizLayout.classList.remove('sidebar-collapsed');
 }
 
 function toggleSidebar(forceState) {
     if (!sidebar || !quizLayout) return;
 
-    const shouldCollapse = typeof forceState === 'boolean' ? forceState : !sidebar.classList.contains('collapsed');
-    sidebar.classList.toggle('collapsed', shouldCollapse);
-    quizLayout.classList.toggle('sidebar-collapsed', shouldCollapse);
-    actualizarEtiquetaSidebar();
+    sidebar.classList.remove('collapsed');
+    quizLayout.classList.remove('sidebar-collapsed');
 }
 
-sidebarToggle.addEventListener('click', () => {
-    const isCollapsed = sidebar.classList.contains('collapsed');
-    toggleSidebar(!isCollapsed);
-});
+if (sidebarToggle) {
+    sidebarToggle.style.display = 'none';
+    sidebarToggle.setAttribute('aria-hidden', 'true');
+    sidebarToggle.disabled = true;
+}
 
 elementPartida.addEventListener('click', (event) => {
+    if (estatDeLaPartida.mode === 'review') return;
+
     const respostaSeleccionada = event.target.closest('.resposta');
     if (!respostaSeleccionada) return;
 
@@ -238,8 +233,68 @@ elementPartida.addEventListener('click', (event) => {
     botoSeguent.classList.remove('hidden');
 });
 
+function obtenirRespostaUsuari(pregunta) {
+    const preguntaId = pregunta.id || estatDeLaPartida.llistaPreguntes.indexOf(pregunta);
+    const resposta = estatDeLaPartida.respostesUsuari.find((item) => String(item.preguntaId) === String(preguntaId));
+    return resposta ? resposta.resposta : null;
+}
+
+function obtenirRespostaCorrecta(pregunta) {
+    if (!pregunta) return null;
+    return pregunta.resposta_correcta ?? pregunta.respostaCorrecta ?? null;
+}
+
+function renderPreguntaReview(index) {
+    if (index < 0 || index >= estatDeLaPartida.totalPreguntes) return;
+
+    const pregunta = estatDeLaPartida.llistaPreguntes[index];
+    const respostaUsuari = obtenirRespostaUsuari(pregunta);
+    const respostaCorrecta = obtenirRespostaCorrecta(pregunta);
+    const esCorrecta = respostaUsuari !== null && respostaUsuari === respostaCorrecta;
+    const imatgeHtml = pregunta.imatge ? `<img src="${pregunta.imatge}" alt="Imatge de la pregunta">` : '';
+
+    elementPartida.innerHTML = `
+        <div class="question-topbar d-flex justify-content-between align-items-center">
+            <div class="meta question-label">Pregunta ${index + 1}</div>
+            <div class="question-stat ${esCorrecta ? 'review-success' : 'review-error'}">
+                ${esCorrecta ? 'Resposta correcta' : 'Resposta incorrecta'}
+            </div>
+        </div>
+        <h3>${pregunta.pregunta}</h3>
+        ${imatgeHtml}
+        <div class="review-summary ${esCorrecta ? 'review-success' : 'review-error'}">
+            <p>${esCorrecta ? 'Has encertat aquesta resposta.' : `La teva resposta va ser: <strong>${respostaUsuari || 'Sense resposta'}</strong>.`}</p>
+            <p>Resposta correcta: <strong>${respostaCorrecta || 'Sense resposta'}</strong></p>
+        </div>
+        <div id="botons" class="review-options">
+            ${pregunta.respostes.map((resposta, respostaIndex) => {
+                const esRespostaUsuari = resposta === respostaUsuari;
+                const esRespostaCorrecta = resposta === respostaCorrecta;
+                const classes = [
+                    'resposta',
+                    'review-option',
+                    esRespostaUsuari ? 'user-choice' : '',
+                    esRespostaCorrecta ? 'correct-answer' : '',
+                    esRespostaUsuari && !esRespostaCorrecta ? 'incorrect-answer' : ''
+                ].filter(Boolean).join(' ');
+
+                return `<button type="button" class="${classes}" data-index="${respostaIndex}" disabled>${resposta}</button>`;
+            }).join('')}
+        </div>
+    `;
+
+    estatDeLaPartida.contadorPreguntes = index;
+    renderNavPreguntes();
+    botoSeguent.classList.add('hidden');
+}
+
 function navegarAQuestion(index) {
     if (index < 0 || index >= estatDeLaPartida.totalPreguntes) return;
+
+    if (estatDeLaPartida.mode === 'review') {
+        renderPreguntaReview(index);
+        return;
+    }
 
     estatDeLaPartida.contadorPreguntes = index;
     respostaSeleccionadaActual = null;
@@ -287,10 +342,13 @@ botoSeguent.addEventListener('click', () => {
 });
 
 function arrancarQuiz() {
+    estatDeLaPartida.mode = 'quiz';
     seccioLogin.classList.add('hidden');
     seccioQuiz.classList.remove('hidden');
     seccioQuiz.classList.remove('results-state');
-    sidebarToggle.classList.add('visible');
+    if (sidebarToggle) {
+        sidebarToggle.classList.add('visible');
+    }
     toggleSidebar(false);
 
     const sessionId = localStorage.getItem('sessionId');
@@ -306,15 +364,13 @@ function arrancarQuiz() {
             respostaSeleccionadaActual = null;
 
             tempsTranscorregut = 0;
-            document.getElementById('comptador-temps').innerText = 'Temps: 0s';
-            document.getElementById('comptador-temps').classList.remove('hidden');
             document.getElementById('progress-container').classList.remove('hidden');
             document.getElementById('boto-enviar').classList.add('hidden');
             botoSeguent.classList.add('hidden');
-            botonsTemps();
             renderNavPreguntes();
             iniciarPartida();
             renderitzarMarcador();
+            botonsTemps();
         })
         .catch(error => console.error('Error carregant les preguntes:', error));
 }
@@ -334,8 +390,20 @@ function renderNavPreguntes() {
         const preguntaId = pregunta.id || index;
         const isAnswered = estatDeLaPartida.respostesUsuari.some((item) => String(item.preguntaId) === String(preguntaId));
         const isCurrent = index === estatDeLaPartida.contadorPreguntes;
+        const respostaUsuari = obtenirRespostaUsuari(pregunta);
+        const respostaCorrecta = obtenirRespostaCorrecta(pregunta);
+        const isCorrect = estatDeLaPartida.mode === 'review' && respostaUsuari !== null && respostaUsuari === respostaCorrecta;
+        const isWrong = estatDeLaPartida.mode === 'review' && respostaUsuari !== null && respostaUsuari !== respostaCorrecta;
 
-        return `<button type="button" class="question-chip ${isAnswered ? 'answered' : ''} ${isCurrent ? 'current' : ''}" data-index="${index}" aria-label="Pregunta ${index + 1}">${index + 1}</button>`;
+        const classes = [
+            'question-chip',
+            isAnswered ? 'answered' : '',
+            isCurrent ? 'current' : '',
+            estatDeLaPartida.mode === 'review' && isCorrect ? 'review-correct' : '',
+            estatDeLaPartida.mode === 'review' && isWrong ? 'review-wrong' : ''
+        ].filter(Boolean).join(' ');
+
+        return `<button type="button" class="${classes}" data-index="${index}" aria-label="Pregunta ${index + 1}">${index + 1}</button>`;
     }).join('');
 
     questionNav.querySelectorAll('.question-chip').forEach((chip) => {
@@ -362,7 +430,11 @@ function iniciarPartida() {
     }).join('');
 
     elementPartida.innerHTML = `
-        <div class="meta">Pregunta ${estatDeLaPartida.contadorPreguntes + 1}</div>
+        <div class="question-topbar d-flex justify-content-between align-items-center">
+            <div class="meta question-label">Pregunta ${estatDeLaPartida.contadorPreguntes + 1}</div>
+            <div id="comptador-temps" class="question-stat timer-stat">Temps: ${tempsTranscorregut}s</div>
+            <div id="marcador" class="question-stat counter-stat">Preguntes respostes: ${estatDeLaPartida.respostesUsuari.length} de ${estatDeLaPartida.totalPreguntes}</div>
+        </div>
         <h3>${p.pregunta}</h3>
         ${imatgeHtml}
         <div id="botons">
@@ -412,9 +484,15 @@ document.getElementById('boto-enviar').addEventListener('click', () => {
             if (data.error) {
                 alert(data.error);
             } else {
+                clearInterval(intervalTemps);
+                estatDeLaPartida.mode = 'review';
                 seccioQuiz.classList.add('results-state');
-                sidebarToggle.classList.remove('visible');
-                toggleSidebar(true);
+                if (sidebarToggle) {
+                    sidebarToggle.classList.remove('visible');
+                }
+                if (sidebar) {
+                    toggleSidebar(false);
+                }
                 elementPartida.innerHTML = `
                     <div class="results-panel">
                         <h2>Resultats finals</h2>
@@ -427,9 +505,13 @@ document.getElementById('boto-enviar').addEventListener('click', () => {
                     </div>
                 `;
                 document.getElementById('boto-enviar').classList.add('hidden');
-                document.querySelector('.stats-container').classList.add('hidden');
+                const statsContainer = document.querySelector('.stats-container');
+                if (statsContainer) {
+                    statsContainer.classList.add('hidden');
+                }
                 document.getElementById('progress-container').classList.add('hidden');
                 botoSeguent.classList.add('hidden');
+                renderNavPreguntes();
             }
         })
         .catch(error => console.error('Error enviant respostes:', error));
