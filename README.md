@@ -2,6 +2,8 @@
 
 Projecte web de tipus quiz basat en preguntes sobre marques, productes i empreses conegudes del món de la tecnologia, la moda, l'alimentació, l'esport i el retail. La idea del joc és senzilla: l'usuari inicia sessió, es genera una partida aleatòria i respon una sèrie de preguntes de resposta múltiple amb imatge i temporització visual molt bàsica.
 
+**Autor:** Kim Zairyl Galicio Lamar de 2do de DAW
+
 ## Descripció
 
 Aquest projecte combina un frontend lleuger en HTML, CSS i JavaScript amb un backend en Node.js i Express. Les preguntes es gestionen des d'arxius JSON i es serveixen al client de forma dinàmica per generar partides diferents cada vegada.
@@ -16,14 +18,15 @@ L'objectiu principal és practicar conceptes de:
 
 ## Funcionalitats
 
-- Login bàsic amb nom d'usuari i contrasenya
-- Generació de sessió per usuari
-- Obtenció de preguntes aleatòries des del backend
-- Mescla d'opcions per tal que la resposta correcta aparegui en posicions diferents
-- Visualització d'una pregunta per vegada
-- Progrés de l'usuari durant la partida
-- Ús d'imatges associades a cada pregunta
-- Estructura preparada per ampliar-se amb puntuació final, temporitzador, estadístiques i millores d'UX
+- Login bàsic amb correu i contrasenya.
+- Possibilitat d'entrar com a usuari normal o com a administrador utilitzant el compte `admin` i el correu `admin@gmail.com`.
+- Generació de sessió per usuari.
+- Obtenció de preguntes aleatòries des del backend.
+- Mescla d'opcions per tal que la resposta correcta aparegui en posicions diferents.
+- Visualització d'una pregunta per vegada.
+- Progrés de l'usuari durant la partida.
+- Ús d'imatges associades a cada pregunta.
+- Estructura preparada per ampliar-se amb puntuació final, temporitzador, estadístiques i millores d'UX.
 
 ## Tecnologies utilitzades
 
@@ -35,46 +38,70 @@ L'objectiu principal és practicar conceptes de:
 - CORS
 - UUID per a la generació de sessions
 - JSON com a font de dades
+- **Docker i Docker Compose** (per a la conteneïtzació i execució en entorn local)
+- **GitHub Actions (CI/CD)** (per a la validació al fer merge i el desplegament automàtic)
+- **Screen** (per a l'execució i manteniment del procés en el servidor de producció)
 
 ## Estructura del projecte
 
-- backend/
-  - app.js: servidor principal amb rutes de login, sessió i preguntes
-  - preguntes.json: conjunt de preguntes del quiz
-  - respostes.json: respostes o estructura auxiliar per al backend
-  - package.json: dependències i configuració del projecte
-- frontend/
-  - index.html: estructura principal de l'aplicació
-  - script.js: lògica del joc i comunicació amb el backend
-  - style.css: estil visual de la interfície
-  - img/: recursos gràfics de les marques i preguntes
-- doc/
-  - README.md: documentació tècnica i explicació del funcionament
+- `backend/`
+  - `app.js`: servidor principal amb rutes de login, sessió i preguntes
+  - `preguntes.json`: conjunt de preguntes del quiz
+  - `respostes.json`: respostes o estructura auxiliar per al backend
+  - `package.json`: dependències i configuració del projecte
+- `frontend/`
+  - `index.html`: estructura principal de l'aplicació
+  - `script.js`: lògica del joc i comunicació amb el backend
+  - `style.css`: estil visual de la interfície
+  - `img/`: recursos gràfics de les marques i preguntes
+- `doc/`
+  - `README.md`: documentació tècnica i explicació del funcionament
+- `.github/workflows/`:
+  - `ci.yml`: Workflow d'Integració Contínua (per als merges)
+  - `cd.yml`: Workflow de Desplegament Continu (per al servidor)
 
 ## Com funciona
 
-1. L'usuari entra a l'aplicació i omple el formulari de login.
-2. El frontend envia les dades al backend mitjançant una petició POST a /login.
-3. El servidor crea una sessió única i retorna un sessionId.
-4. El client guarda aquest identificador a localStorage.
-5. Quan s'inicia la partida, el navegador sol·licita /preguntes amb el sessionId.
+1. L'usuari entra a l'aplicació i omple el formulari de login. Pot decidir si entrar amb un compte d'usuari normal o amb el compte admin (`admin@gmail.com`).
+2. El frontend envia les dades al backend mitjançant una petició POST a `/login`.
+3. El servidor crea una sessió única i retorna un `sessionId` (juntament amb informació de rol si aplica).
+4. El client guarda aquest identificador a `localStorage`.
+5. Quan s'inicia la partida, el navegador sol·licita `/preguntes` amb el `sessionId`.
 6. El backend barreja les preguntes, selecciona un conjunt i les retorna amb opcions aleatòries.
 7. El frontend renderitza la primera pregunta i espera la resposta de l'usuari.
 8. El flux continua amb la següent pregunta fins completar la partida.
 
-## Inici del projecte
+## Inici del projecte (Local)
 
-Des de la carpeta backend, instala les dependències:
+Per arrencar el projecte en entorn local de desenvolupament, s'utilitza **Docker**. Això ens estalvia haver d'instal·lar les dependències localment de forma manual i permet aixecar el servei i el client d'una sola vegada.
 
-npm install
+Per aixecar els contenidors, executa la següent comanda des de l'arrel del projecte:
 
-I arrenca el servidor:
+```bash
+docker compose -f docker-compose.dev.yml up -d --build
+```
+*(També pots utilitzar `docker-compose` depenent de la teva versió).*
 
-node app.js
+Un cop el procés finalitzi, l'aplicació web es podrà visualitzar a:
 
-L'aplicació es serveix normalment a:
+**http://localhost:40600**
 
-http://localhost:40500
+### Apartats a localhost:40600
+
+A l'accedir a l'adreça `http://localhost:40600`, l'usuari navegarà pels següents apartats:
+
+- **Login:** La pantalla inicial on s'ha d'introduir un correu i contrasenya per començar a jugar. Pots provar a entrar com a administrador amb l'usuari `admin` / `admin@gmail.com`.
+- **Admin Panel / Vistes Especials:** Si inicies sessió com a administrador, el sistema detectarà el compte `admin` i podràs accedir a funcionalitats exclusives, gestionant o monitoritzant dades. Si no, entraràs com a usuari regular a jugar el quiz.
+- **Interfície de Quiz:** És la pantalla principal de joc. Aquí es mostren la imatge de la marca, el temporitzador, les 4 opcions de resposta possibles i la barra de progrés de les preguntes (ex: 1 de X).
+- **Resultats:** Quan finalitza el quiz, es mostra una pantalla amb el resum de les teves respostes per veure quines marques has endevinat.
+
+## Desplegament al Servidor (Producció) i CI/CD
+
+El cicle de vida del projecte empra GitHub Actions per assegurar un flux de treball robust:
+- **CI (Integració Contínua):** S'utilitza per testejar, lintar o validar el codi abans de permetre un *merge* cap a la branca principal.
+- **CD (Desplegament Continu):** S'utilitza per a l'automatització del desplegament (`desplegamiento`) directament al servidor quan hi ha nous canvis.
+
+És important remarcar que, tot i que localment utilitzem Docker per facilitar el desenvolupament, **en el servidor de producció no s'utilitza Docker**. L'execució al servidor es realitza de forma nativa gestionant el procés mitjançant comandaments de **`screen`**, que permeten mantenir el servidor Node en execució contínua en segon pla (en comptes de dependre de contenidors).
 
 ## Estil visual
 
