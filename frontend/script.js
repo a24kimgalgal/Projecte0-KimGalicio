@@ -431,7 +431,9 @@ function iniciarPartida() {
 
     elementPartida.innerHTML = `
         <div class="question-topbar d-flex justify-content-between align-items-center">
-            <div class="meta question-label">Pregunta ${estatDeLaPartida.contadorPreguntes + 1}</div>
+            <div style="flex: 1; text-align: left;">
+                <div class="meta question-label">Pregunta ${estatDeLaPartida.contadorPreguntes + 1}</div>
+            </div>
             <div id="comptador-temps" class="question-stat timer-stat">Temps: ${tempsTranscorregut}s</div>
             <div id="marcador" class="question-stat counter-stat">Preguntes respostes: ${estatDeLaPartida.respostesUsuari.length} de ${estatDeLaPartida.totalPreguntes}</div>
         </div>

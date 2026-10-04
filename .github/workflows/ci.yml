@@ -1,7 +1,9 @@
 name: Auto Merge dev to main
 
 on:
-  workflow_dispatch:
+  push:
+    branches:
+      - dev
 
 jobs:
   build-and-merge:
