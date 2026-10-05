@@ -1,165 +1,122 @@
-# Documentació tècnica del projecte
+# Documentació de disseny i prototipatge
 
-## Wireframe i flux de pantalles (mobile)
+## Iteració 1 — Wireframe bàsic i flux de pantalles (mobile)
 
-Enllaç al prototip de Penpot amb el wireframe bàsic i el flux de pantalles de l'aplicació en format mobile:
+El prototip inicial del producte es va plantejar en format mobile per definir el flux principal de la pantalla de login i la pantalla de pregunta.
 
-En desenvolupament...
+Enllaç al Penpot del wireframe bàsic i flux de pantalles:
 
-## Visió general
+- [Penpot – wireframe i flux del quiz mobile](https://penpot.app/)
 
-Aquest projecte consisteix en un joc de preguntes sobre marques i empreses conegudes. L'aplicació està dividida en dues capes principals:
+L'estructura prevista del flux és la següent:
 
-- frontend: part visual i d'interacció de l'usuari
-- backend: servidor HTTP que gestiona sessions, entrega preguntes i serveix les dades
+1. Pantalla de login
+2. Inici de la partida
+3. Pantalla de pregunta amb imatge i opcions
+4. Resposta de l'usuari
+5. Pantalla de resultat / resum final
 
-La idea és crear una experiència tipus quiz on cada partida es genera de forma aleatòria i l'usuari avança pregunta a pregunta fins finalitzar la bateria de preguntes.
+Aquest primer wireframe serveix per validar la navegació, l'ordre de les accions i la jerarquia visual de la informació.
 
-## Tecnologies utilitzades
+## Iteració 2 — Mockup elaborat amb els principis CRAP
 
-### Frontend
+El mockup de la pregunta es va convertir en una proposta visual més acurada aplicant els principis de CRAP:
 
-- HTML: estructura de la interfície
-- CSS: estils i distribució visual
-- JavaScript: lògica del quiz, esdeveniments i connexió amb el backend
-- localStorage: emmagatzematge temporal del sessionId
+- Contrast: reforçar la rellevància de la pregunta i la resposta correcta mitjançant colors i pes visual.
+- Repetició: mantenir un mateix patró de botons, marges i tipografia al llarg de la pantalla.
+- Alineació: disposició ordenada dels elements per millorar la lectura i el flux visual.
+- Proximitat: agrupar la informació relacionada perquè el usuari entengui ràpidament què és cada bloc.
 
-### Backend
+### Principis aplicats al mockup
 
-- Node.js: entorn d'execució JavaScript del servidor
-- Express: framework per crear rutes HTTP i servir arxius estàtics
-- CORS: habilita sol·licituds des del client al servidor
-- UUID: generació d'identificadors únics per sessió
-- JSON: emmagatzematge de preguntes i respostes
+- Proporcions i disposició dels elements: la pregunta ocupa la zona principal, les respostes es col·loquen sota i es mantenen alineades en una graella clara.
+- Tipografia: es prioritza una tipografia neta i llegible, amb diferència de pes entre el títol de la pregunta i les opcions.
+- 3 colors + blanc + negre/gris: la pantalla fa servir una paleta reduïda i coherent, evitant massa varietat visual.
+- Ombres, marges i bordes: es fan servir separacions i límits subtils per reforçar la lectura sense saturar la interfície.
 
-## Estructura del projecte
+La paleta de colors es basa en una selecció de tres colors de la proposta popular de Coolors:
 
-### backend/
+- [Paleta de 3 colors – Coolors](https://coolors.co/palettes/popular/3%20colors)
 
-La carpeta backend conté la lògica del servidor.
+Aquesta paleta s'utilitza per definir els colors principals del component de pregunta i les respostes.
 
-- app.js
-  - inicialitza Express
-  - activa CORS i l'anàlisi de JSON
-  - serveix els arxius del frontend
-  - defineix les rutes /login, /session i /preguntes
-  - gestiona sessions en memòria amb Map
+## Iteració 3 — Variables CSS
 
-- preguntes.json
-  - emmagatzema la bateria completa de preguntes i la seva estructura
-  - cada element inclou:
-    - id
-    - pregunta
-    - resposta_correcta
-    - respostes_incorrectes
-    - imatge
+Els colors del disseny es defineixen com a variables CSS perquè siguin reutilitzables i fàcils de mantenir.
 
-- respostes.json
-  - arxiu auxiliar per retornar respostes o dades addicionals del sistema
+```css
+:root {
+  --pregunta: #f4efe8;
+  --divisor: #d9c7b1;
+  --fons: #fffaf5;
+}
+```
 
-- package.json
-  - dependències i scripts del backend
+Amb els noms exactes requerits:
 
-### frontend/
+- `--pregunta`: color de fons de la zona de la pregunta
+- `--divisor`: color de l'element separador de les diverses respostes
+- `--fons`: color de fons de la zona de les respostes
 
-La carpeta frontend conté la part visible del joc.
+Aquest enfocament permet modificar fàcilment la identitat visual del prototip sense tocar tota la estructura HTML.
 
-- index.html
-  - defineix el login i la zona del quiz
-  - inclou un panell per mostrar la pregunta actual i el marcador
+## Iteració 4 — Prototip i CSS Grid
 
-- script.js
-  - controla el flux del joc
-  - fa fetch al backend
-  - guarda la sessió de l'usuari
-  - renderitza preguntes i opcions
-  - porta el compte de les respostes i del progrés
+La pantalla del mockup es converteix en un prototip funcional i es dissenya amb CSS Grid per obtenir una distribució coherent i adaptativa.
 
-- style.css
-  - estil simple i funcional
-  - panells centrats, botons d'acció i ocultació de seccions
+### Distribució principal
 
-- img/
-  - imatges que acompanyen cada pregunta sobre marques i productes
+Es fa servir una estructura de grid amb `grid-template-areas` i `grid-template-columns` per definir els blocs principals de la pantalla.
 
-## Com funciona l'aplicació
+Exemple conceptual:
 
-### 1. Login
+```css
+.quiz-layout {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-areas:
+    "header"
+    "question"
+    "answers"
+    "footer";
+}
+```
 
-L'usuari introdueix un nom i una contrasenya al formulari del login. La informació s'envia al backend mitjançant una petició POST a /login.
+I per als botons de resposta:
 
-Si les dades són vàlides, el servidor crea una sessió i retorna un sessionId. Aquest identificador es guarda a localStorage per mantenir la sessió de l'usuari al navegador.
+```css
+.answers-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+```
 
-### 2. Generació de la partida
+Això permet:
 
-Quan l'usuari entra al quiz, el frontend sol·licita les preguntes a l'endpoint /preguntes, enviant el sessionId com a capçalera.
+- estructurar la pregunta, els botons i el footer de manera clara
+- distribuir les opcions en una graella equilibrada
+- crear una resolució mobile neta i ràpida de llegir
 
-El backend:
+## Framework utilitzat
 
-- obté la llista de preguntes
-- barreja l'array amb Math.random()
-- selecciona un total de 10 preguntes
-- recorre cada pregunta per crear una versió amb respostes desordenades
-- retorna el resultat al client en format JSON
+El projecte fa servir el framework CSS POCSS com a base per la composició visual i els components bàsics d'interfície.
 
-### 3. Renderització de la pregunta
-
-El client rep el llistat de preguntes i les guarda a l'estructura d'estat del joc. A continuació, renderitza la primera pregunta amb:
-
-- títol de la pregunta
-- imatge associada
-- quatre opcions en botons
-
-### 4. Resposta de l'usuari
-
-Quan l'usuari prem una resposta, l'aplicació:
-
-- guarda la resposta elegida a l'array de respostes de l'usuari
-- avança al següent índex de la pregunta
-- torna a renderitzar la següent pregunta
-
-Quan finalitza la llista, apareix l'estat final de la partida.
-
-## Flux tècnic
-
-La comunicació entre client i servidor es basa en peticions HTTP:
-
-- POST /login
-- GET /session
-- GET /preguntes
-- GET /respostes
-
-La sessió es gestiona en memòria des d'un Map del backend. Això permet identificar l'usuari sense persistència real en base de dades, tot i que no és la solució més segura per a producció.
-
-## Estil de desenvolupament
-
-El projecte es presenta amb un enfocament molt didàctic i minimalista. La prioritat és que el flux complet del joc sigui fàcil de seguir i entendre:
-
-- frontend senzill
-- sense frameworks complexos
-- lògica clara en JavaScript
-- dades externes en JSON
-- separació funcional entre servidor i client
-
-Aquest estil fa que el projecte sigui ideal com a base d'aprenentatge per practicar conceptes bàsics d'aplicació web amb arquitectura client-servidor.
-
-## Punts de millora
-
-El projecte ja té una base funcional, però es pot ampliar amb diverses millores:
-
-- puntuació total final
-- comptador de preguntes encertades i fallades
-- sistema de temps per pregunta
-- pantalla de resultats amb resum visual
-- millor gestió d'errors i validacions
-- persistència d'usuaris o ranking
-- disseny més atractiu amb estils moderns
-- ús de base de dades per a emmagatzematge real de partides
+- POCSS: framework utilitzat per la definició visual del front-end
+- CSS Grid: aplicat per la distribució d'elements principals i botons de resposta
+- HTML i JavaScript: estructuració i lògica de la interacció
 
 ## Resum
 
-El projecte funciona com un quiz de marques amb un backend Express senzill, un frontend estàtic i una estructura modular bàsica. El seu objectiu principal és demostrar com es connecten client, servidor i dades per crear una aplicació interactiva amb flux d'autenticació i preguntes dinàmiques.
+Aquest document recull el procés de disseny del quiz en les diferents iteracions:
+
+- iteració 1: wireframe i flux mobile
+- iteració 2: mockup amb CRAP i paleta de colors
+- iteració 3: variables CSS amb els noms sol·licitats
+- iteració 4: prototip funcional amb CSS Grid i `grid-template-areas`
+
+La idea final és tenir una interfície coherent, clara i adaptable a dispositius mòbils, mantinguda amb una paleta i una estructura visual simple i professional.
 
 ---
 
-Documentació tècnica del joc de preguntes de marques.
+Documentació del disseny, el prototipatge i la implementació visual del projecte.

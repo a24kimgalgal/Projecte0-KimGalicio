@@ -44,21 +44,49 @@ L'objectiu principal és practicar conceptes de:
 
 ## Estructura del projecte
 
+A continuació es mostra l'estructura real del repositori, incloent els directoris i fitxers que formen la base del sistema:
+
+- `.`
+  - `.env`: variables d'entorn per a la configuració de la base de dades i altres valors locals
+  - `.gitignore`: fitxer de exclusions de Git
+  - `docker-compose.dev.yml`: orquestració del entorn de desenvolupament local
+  - `README.md`: documentació principal del projecte
+  - `backend/`: aplicació Node.js / Express
+  - `frontend/`: client web HTML, CSS i JavaScript
+  - `doc/`: documentació addicional del projecte
+  - `.github/workflows/`: workflows de CI/CD
+
 - `backend/`
-  - `app.js`: servidor principal amb rutes de login, sessió i preguntes
-  - `preguntes.json`: conjunt de preguntes del quiz
-  - `respostes.json`: respostes o estructura auxiliar per al backend
-  - `package.json`: dependències i configuració del projecte
+  - `app.js`: servidor principal amb endpoints de login, sessió, preguntes i flux de joc
+  - `migrate.js`: script que crea les taules MySQL i importa les preguntes i respostes des de `preguntes.json`
+  - `preguntes.json`: conjunt de preguntes del quiz amb imatges i respostes correctes/incorrectes
+  - `respostes.json`: fitxer auxiliar de dades que complementa el flux de respostes
+  - `package.json`: dependències i scripts del backend
+  - `Dockerfile.dev`: configuració del contenidor de desenvolupament del backend
+  - `config/`
+    - `db.js`: connexió a MySQL mitjançant `mysql` i càrrega de variables d'entorn des de `.env`
+  - `test/`
+    - `api.preguntes.test.js`: validacions de les rutes i serveis de preguntes
+    - `cd.test.js`: proves associades al flux de desplegament o integració continuada
+    - `ci.test.js`: validacions de la configuració de CI
+    - `edge-cases.test.js`: casos límit i comportaments inesperats
+    - `respostes.flow.test.js`: proves del flux de respostes i lògica del joc
+
 - `frontend/`
-  - `index.html`: estructura principal de l'aplicació
-  - `script.js`: lògica del joc i comunicació amb el backend
-  - `style.css`: estil visual de la interfície
-  - `img/`: recursos gràfics de les marques i preguntes
+  - `index.html`: pàgina principal de l'aplicació
+  - `admin.html`: panell d'administració amb funcionalitats especials per a l'usuari administrador
+  - `script.js`: lògica principal del frontend i comunicació amb el backend
+  - `admin.js`: lògica específica del panell d'administració
+  - `style.css`: estils visuals del joc i del panell admin
+  - `img/`: recursos gràfics, imatges de marques i elements visuals
+  - `Dockerfile.dev`: configuració del contenidor del frontend
+
 - `doc/`
-  - `README.md`: documentació tècnica i explicació del funcionament
-- `.github/workflows/`:
-  - `ci.yml`: Workflow d'Integració Contínua (per als merges)
-  - `cd.yml`: Workflow de Desplegament Continu (per al servidor)
+  - `README.md`: documentació addicional i explicació del funcionament de l'aplicació
+
+- `.github/workflows/`
+  - `ci.yml`: workflow d'Integració Contínua
+  - `cd.yml`: workflow de Desplegament Continu
 
 ## Com funciona
 
@@ -70,6 +98,23 @@ L'objectiu principal és practicar conceptes de:
 6. El backend barreja les preguntes, selecciona un conjunt i les retorna amb opcions aleatòries.
 7. El frontend renderitza la primera pregunta i espera la resposta de l'usuari.
 8. El flux continua amb la següent pregunta fins completar la partida.
+
+## Proves i validació
+
+El projecte inclou una bateria de proves automatitzades dins de `backend/test/` per validar diferents parts del flux:
+
+- comprovació de les rutes i endpoints de l'API
+- validació del flux de preguntes i respostes
+- casos límit i errors inesperats
+- verificació de la integració de CI/CD i del comportament d'administració
+
+Per executar-les des de la carpeta `backend`, es pot fer:
+
+```bash
+npm test
+```
+
+Aquestes proves estan preparades per comprovar que el backend continua funcionant correctament després de canvis en la lògica del joc o de la API.
 
 ## Inici del projecte (Local)
 
